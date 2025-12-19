@@ -1,49 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BookMap</title>
-  <link rel="stylesheet" href="pages/background.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" 
-      integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://fonts.googleapis.com/css2?family=Girasol&display=swap" rel="stylesheet" />
-  <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon" />
+  <link rel="stylesheet" href="css/base_styles.css">
+  <link rel="stylesheet" href="css/homepage.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Girasol&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
 </head>
 <body>
-
+  <div id="bookViewer" class="book-viewer">
+    <div class="book-outer">
+      <div class="book">
+        <div class="hardcover left">
+          <img id="bookCoverFull" src="" alt="Cover">
+        </div>
+        <div class="pages-container right">
+          <div class="pages-scroll" id="fullBookContent"></div>
+        </div>
+      </div>
+      <button class="exit-book">✕</button>
+      <div class="book-title-overlay">
+        <h2 id="overlayTitle">Loading</h2>
+        <p id="overlayAuthor">by Author</p>
+      </div>
+    </div>
+  </div>
 
   <header class="navbar" id="navbar">
     <nav>
-      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"></button>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+      </button>
       <ul id="navMenu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Genre</a></li>
-        <li><a href="#">Mood</a></li>
-        <li><a href="#">Latest releases</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="genre.html">Genre</a>
+          <ul>
+            <li><a href="genre.html#romance">Romance</a></li>
+            <li><a href="genre.html#drama">Drama</a></li>
+            <li><a href="genre.html#thriller">Thriller</a></li>
+            <li><a href="genre.html#action">Action</a></li>
+            <li><a href="genre.html#horror">Horror</a></li>
+            <li><a href="genre.html#history">History</a></li>
+            <li><a href="genre.html#psychology">Psychology</a></li>
+            <li><a href="genre.html#comedy">Comic Novel</a></li>
+          </ul>
+        </li>
+        <li><a href="mood.html">Mood</a>
+          <ul>
+            <li><a href="mood.html#happy">Happy</a></li>
+            <li><a href="mood.html#sad">Sad</a></li>
+            <li><a href="mood.html#adventurous">Adventurous</a></li>
+            <li><a href="mood.html#motivated">Motivated</a></li>
+            <li><a href="mood.html#frustrated">Frustrated</a></li>
+          </ul>
+        </li>
+        <li><a href="latest_releases.html">Latest Releases</a></li>
         <li><a href="#">Based on your last read</a></li>
+        <li class="nav-contact"><a href="contact.html">Contact</a></li>
         <li class="nav-search-container">
           <div class="nav-search">
-  <input type="search" id="searchInput" placeholder="Search books..." aria-label="Search books" />
-  <button type="button" id="searchBtn" class="search-btn">
-    <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-  </button>
-</div>
+            <input type="search" id="searchInput" placeholder="Search books" aria-label="Search books">
+            <button type="button" id="searchBtn" class="search-btn">
+              <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+            </button>
+          </div>
         </li>
       </ul>
     </nav>
   </header>
 
   <main>
-
-    <!-- hero section -->
     <section class="hero">
       <div class="hero-content">
-        <img src="assets/logo.png" alt="BookMap Logo" class="logo" />
+        <img src="images/logo.png" alt="BookMap Logo" class="logo">
         <h1>BookMap</h1>
         <p>Where every book is a journey</p>
-        <button class="cta-btn"><a href="#trending-books" id = "scrollLink">Explore Now</a></button>
+        <button class="cta-btn"><a href="#trending-books" id="scrollLink">Explore Now</a></button>
       </div>
     </section>
 
@@ -54,68 +92,63 @@
         <div class="book-grid">
           <!-- Books (duplicated for infinite scroll) -->
           <div class="book-item">
-            <img src="assets/trending-books/book1.jpg" alt="Harry Potter">
+            <img src="images/trending-books/book1.jpg" alt="Harry Potter">
             <h3>Harry Potter</h3>
             <p>J.K. Rowling</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book2.jpg" alt="The Great Gatsby">
+            <img src="images/trending-books/book2.jpg" alt="The Great Gatsby">
             <h3>The Great Gatsby</h3>
             <p>F. Scott Fitzgerald</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book3.jpg" alt="To Kill a Mockingbird">
+            <img src="images/trending-books/book3.jpg" alt="To Kill a Mockingbird">
             <h3>To Kill a Mockingbird</h3>
             <p>Harper Lee</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book4.jpg" alt="The Story of a Lonely Boy">
+            <img src="images/trending-books/book4.jpg" alt="The Story of a Lonely Boy">
             <h3>The Story of a Lonely Boy</h3>
             <p>Korina Villanueva</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book5.jpg" alt="The Beloved Girls">
+            <img src="images/trending-books/book5.jpg" alt="The Beloved Girls">
             <h3>The Beloved Girls</h3>
             <p>Harriet Evans</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book6.jpg" alt="The Metamorphosis">
+            <img src="images/trending-books/book6.jpg" alt="The Metamorphosis">
             <h3>The Metamorphosis</h3>
             <p>Franz Kafka</p>
           </div>
-          <div class="book-item">
-            <img src="assets/trending-books/book7.jpg" alt="Long Walk to Freedom">
-            <h3>Long Walk to Freedom</h3>
-            <p>Nelson Mandela</p>
-          </div>
           <!-- Duplicate set -->
           <div class="book-item">
-            <img src="assets/trending-books/book1.jpg" alt="Harry Potter">
+            <img src="images/trending-books/book1.jpg" alt="Harry Potter">
             <h3>Harry Potter</h3>
             <p>J.K. Rowling</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book2.jpg" alt="The Great Gatsby">
+            <img src="images/trending-books/book2.jpg" alt="The Great Gatsby">
             <h3>The Great Gatsby</h3>
             <p>F. Scott Fitzgerald</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book3.jpg" alt="To Kill a Mockingbird">
+            <img src="images/trending-books/book3.jpg" alt="To Kill a Mockingbird">
             <h3>To Kill a Mockingbird</h3>
             <p>Harper Lee</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book4.jpg" alt="The Story of a Lonely Boy">
+            <img src="images/trending-books/book4.jpg" alt="The Story of a Lonely Boy">
             <h3>The Story of a Lonely Boy</h3>
             <p>Korina Villanueva</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book5.jpg" alt="The Beloved Girls">
+            <img src="images/trending-books/book5.jpg" alt="The Beloved Girls">
             <h3>The Beloved Girls</h3>
             <p>Harriet Evans</p>
           </div>
           <div class="book-item">
-            <img src="assets/trending-books/book6.jpg" alt="The Metamorphosis">
+            <img src="images/trending-books/book6.jpg" alt="The Metamorphosis">
             <h3>The Metamorphosis</h3>
             <p>Franz Kafka</p>
           </div>
@@ -127,83 +160,137 @@
     <section class="mood-picker">
       <h2>Pick by Mood</h2>
       <div class="mood-container">
-        <div class="mood-item" style="background-image: url('assets/moods/happy-mood.png');">
-          <p>Happy</p>
-        </div>
-        <div class="mood-item" style="background-image: url('assets/moods/sad-mood.jpg');">
-          <p>Sad</p>
-        </div>
-        <div class="mood-item" style="background-image: url('assets/moods/aventurous-mood.jpg');">
-          <p>Adventurous</p>
-        </div>
-        <div class="mood-item" style="background-image: url('assets/moods/motivated-mood.png');">
-          <p>Motivated</p>
-        </div>
-        <div class="mood-item" style="background-image: url('assets/moods/frustrated-mood.png');">
-          <p>Frustrated</p>
-        </div>
+        <a href="mood.html#happy">
+          <div class="mood-item" style="background-image: url('images/moods/happy-mood.png');">
+            <p>Happy</p>
+          </div>
+        </a>
+        <a href="mood.html#sad">
+          <div class="mood-item" style="background-image: url('images/moods/sad-mood.jpg');">
+            <p>Sad</p>
+          </div>
+        </a>
+        <a href="mood.html">
+          <div class="mood-item#adventurous" style="background-image: url('images/moods/aventurous-mood.jpg');">
+            <p>Adventurous</p>
+          </div>
+        </a>
+        <a href="mood.html#motivated">
+          <div class="mood-item" style="background-image: url('images/moods/motivated-mood.png');">
+            <p>Motivated</p>
+          </div>
+        </a>
+        <a href="mood.html#frustrated">
+          <div class="mood-item" style="background-image: url('images/moods/frustrated-mood.png');">
+            <p>Frustrated</p>
+          </div>
+        </a>
       </div>
     </section>
 
     <!-- browse by genre -->
     <section class="genres">
       <h2>Browse by Genre</h2>
-      <div class="genre-container">
-        <div class="genre-item" style="background-image: url('assets/genres/romantic.png');">
-          <p>Romance</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/drama.png');">
-          <p>Drama</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/thriller.png');">
-          <p>Thriller</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/action.png');">
-          <p>Action</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/horror.png');">
-          <p>Horror</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/history.png');">
-          <p>History</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/psychologic.png');">
-          <p>Psychology</p>
-        </div>
-        <div class="genre-item" style="background-image: url('assets/genres/comic-novels.png');">
-          <p>Comic Novel</p>
-        </div>
-      </div>
+
+<div class="genre-container">
+
+  <a href="genre.html#romantic" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/romantic.png');">
+      <p>Romance</p>
+    </div>
+  </a>
+
+  <a href="genre.html#drama" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/drama.png');">
+      <p>Drama</p>
+    </div>
+  </a>
+
+  <a href="genre.html#thriller" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/thriller.png');">
+      <p>Thriller</p>
+    </div>
+  </a>
+
+  <a href="genre.html#action" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/action.png');">
+      <p>Action</p>
+    </div>
+  </a>
+
+  <a href="genre.html#horror" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/horror.png');">
+      <p>Horror</p>
+    </div>
+  </a>
+
+  <a href="genre.html#history" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/history.png');">
+      <p>History</p>
+    </div>
+  </a>
+
+  <a href="genre.html#psychology" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/psychologic.png');">
+      <p>Psychology</p>
+    </div>
+  </a>
+
+  <a href="genre.html#comic-novels" class="genre-link">
+    <div class="genre-item" style="background-image: url('images/genres/comic-novels.png');">
+      <p>Comic Novel</p>
+    </div>
+  </a>
+
+</div>
+
     </section>
 
     <!-- last read -->
     <section class="last-read">
-      <h2>Based on your Latest Reading</h2>
+      <h2>Suggested by Us</h2>
       <div class="lastread-container">
         <div class="lastread-item1">
-          <img src="assets/recommend-1.png" alt="Pride and Prejudice" />
+          <img src="images/recommend-1.png" alt="Pride and Prejudice" />
           <div class="text-content">
             <h3>Pride and Prejudice</h3>
             <p>Jane Austen</p>
-            <button>Read More</button>
+            <button class="read-book-btn"
+              data-title="Pride and Prejudice"
+              data-author="Jane Austen"
+              data-cover="images/recommend-1.png"
+              data-content="books/pride-and-prejudice.txt">
+                Read Now
+            </button>
           </div>
         </div>
         <div class="lastread-item2">
-          <img src="assets/recommend-2.png" alt="1984" />
-          <div class="text-content">
-            <h3>1984</h3>
-            <p>George Orwell</p>
-            <button>Read More</button>
-          </div>
-        </div>
-        <div class="lastread-item3">
-          <img src="assets/recommend-3.jpg" alt="The Silent Patient" />
+          <img src="images/recommend-2.png" alt="The Silent Patient" />
           <div class="text-content">
             <h3>The Silent Patient</h3>
             <p>Alex Michaelides</p>
-            <button>Read More</button>
+            <button class="read-book-btn"
+              data-title="The Silent Patient"
+              data-author="Alex Michaelides"
+              data-cover="images/recommend-2.png"
+              data-content="books/the-silent-patient.txt">
+                Read Now
+            </button>
           </div>
         </div>
+        <div class="lastread-item2">
+          <img src="images/recommend-3.jpg" alt="1984" />
+          <div class="text-content">
+            <h3>1984</h3>
+            <p>George Orwell</p>
+            <button class="read-book-btn"
+              data-title="1984"
+              data-author="George Orwell"
+              data-cover="images/recommend-3.jpg"
+              data-content="books/1984.txt">
+                Read Now
+            </button>
+          </div>
       </div>
     </section>
 
@@ -212,11 +299,11 @@
       <h2>Why use BookMap?</h2>
       <div class="features">
         <div class="feature">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="Time Saver" />
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="Time Saver">
           <p><strong>Time Saver:</strong><br>No more drowning in lists. Get straight to the book that fits you best.</p>
         </div>
         <div class="feature">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/sparkling.png" alt="Hidden Gems" />
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/sparkling.png" alt="Hidden Gems">
           <p><strong>Hidden Gems:</strong><br>Explore stories you’d never find on mainstream lists.</p>
         </div>
         <div class="feature">
@@ -249,7 +336,7 @@
     <li>
       <a href="tel:+38349331392" target="_blank">
         <i class="fa-solid fa-phone" style="color: #8d5356;"></i>
-        <span class="icon">+383 49 331 392</span>
+        <span class="icon">+383 49 123 123</span>
       </a>
     </li>
 
@@ -271,115 +358,7 @@
   </ul>
 </div>
 
+
   </footer>
 
-  <!-- javascript -->
-  <script>
-    //navbar scroll effect
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 50);
-    });
-
-  
-    //mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const navMenu = document.getElementById('navMenu');
-
-    menuToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('active');
-    });
-
-    document.querySelectorAll('#navMenu a').forEach(link => {
-      link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-            });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
-        navMenu.classList.remove('active');
-      }
-    });
-
-   
-    //search functionality
-    const searchBtn = document.getElementById('searchBtn');
-    const searchInput = document.getElementById('searchInput');
-
-    searchBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        performSearch();
-      }
-    });
-
-    function performSearch() {
-      const query = searchInput.value.trim();
-      if (!query) {
-        showFeedback('Please enter a search term.', 'error');
-        searchInput.focus();
-        return;
-      }
-      if (query.length < 2) {
-        showFeedback('Too short.', 'error');
-        return;
-      }
-
-      // Redirect to search results
-      window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
-    }
-
-    function showFeedback(message, type = 'info') {
-      const existing = document.querySelector('.search-feedback');
-      if (existing) existing.remove();
-
-      const feedback = document.createElement('div');
-      feedback.className = `search-feedback ${type}`;
-      feedback.textContent = message;
-      feedback.style.cssText = `
-        position: fixed;
-        top: 100px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: ${type === 'error' ? '#e74c3c' : '#27ae60'};
-        color: white;
-        padding: 12px 24px;
-        border-radius: 30px;
-        font-size: 0.9rem;
-        z-index: 10000;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        animation: fadeInOut 3s forwards;
-      `;
-      document.body.appendChild(feedback);
-      setTimeout(() => feedback.remove(), 3000);
-    }
-
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes fadeInOut {
-        0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-        15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
-      }
-    `;
-    document.head.appendChild(style);
-  </script>
-
-  <script>
-document.getElementById("scrollLink").addEventListener("click", function(e) {
-    e.preventDefault(); // stop default jump
-
-    const target = document.getElementById("trending-books");
-    const offset = 50; // pixels above
-
-    const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-    window.scrollTo({ top: y, behavior: "smooth" });
-});
-</script>
-
-
-</body>
-</html>
-
+  <script src="js/script.js"></script>

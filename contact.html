@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feedback & Support - BookMap</title>
+  <link rel="stylesheet" href="css/base_styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Girasol&display=swap" rel="stylesheet">
+  <style>
+    /* Contact form fields styled to match mood book-card background */
+    .form-row input,
+    .form-row select,
+    .form-row textarea {
+      background: rgba(255, 255, 255, 0.25); /* lighter than form/card background */
+      border: 1px solid rgba(212, 165, 116, 0.2);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 12px;
+      width: 100%;
+      outline: none;
+    }
+    /* Override select text for better contrast in dropdown */
+    .form-row select { color: var(--primary-dark); }
+    .form-row select option { color: var(--primary-dark); background: #fff; }
+    .form-row input::placeholder,
+    .form-row textarea::placeholder { color: rgba(255,255,255,0.8); }
+    .form-row input:focus,
+    .form-row select:focus,
+    .form-row textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.25);
+    }
+    fieldset { border: 1px solid rgba(212, 165, 116, 0.2); }
+    legend { color: #fff; }
+    label { color: #fff; }
+    .form-row { display: grid; gap: 8px; margin-bottom: 12px; }
+    .form-subrow { display: grid; gap: 8px; margin-top: 8px; width: 100%; }
+    /* Issue type layout: radios inline, details below */
+    .issue-options { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+    .issue-details-row { margin-left: 28px; width: 100%; }
+    /* Align checkboxes/radios neatly with labels */
+    .option-check, .option-radio { display: flex; align-items: center; gap: 8px; }
+    .form-row input[type="checkbox"], .form-row input[type="radio"] { margin: 0; }
+    .form-row input[type="checkbox"], .form-row input[type="radio"] { accent-color: var(--accent); }
+    .option-radio label { white-space: nowrap; }
+    /* Page text colors to match footer */
+    .section-title, h1, h2, h3, p, span, label, legend { color: var(--primary-dark); }
+    .muted { color: #777; }
+    /* Success banner */
+    .success-banner {
+      display: none;
+      background: rgba(212, 165, 116, 0.18);
+      border: 1px solid rgba(212, 165, 116, 0.35);
+      color: var(--primary-dark);
+      padding: 12px 14px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    /* Submit button styled like mood "Happy" pill */
+    .submit-btn{
+      padding:8px 14px;
+      border-radius:999px;
+      background:#ececec;
+      color:var(--accent);
+      font-weight:600;
+      cursor:pointer;
+      transition:all .15s;
+      border:0;
+      display:inline-block;
+    }
+    .submit-btn:hover{
+      transform:translateY(-2px);
+      background: var(--primary);
+      color:white;
+    }
+    .form-actions{ display:flex; justify-content:center; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="navbar" id="navbar">
+    <nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span>
+      </button>
+      <div class="nav-container">
+        <img src="images/logo.png" alt="Logo" class="logo">
+        <h1 class="bookMap">BookMap</h1>
+        <ul id="navMenu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Genre</a>
+            <ul>
+              <li><a href="genre.html#romance">Romance</a></li>
+              <li><a href="genre.html#drama">Drama</a></li>
+              <li><a href="genre.html#thriller">Thriller</a></li>
+              <li><a href="genre.html#action">Action</a></li>
+              <li><a href="genre.html#horror">Horror</a></li>
+              <li><a href="genre.html#history">History</a></li>
+              <li><a href="genre.html#psychology">Psychology</a></li>
+              <li><a href="genre.html#comedy">Comic Novel</a></li>
+            </ul>
+          </li>
+          <li><a href="mood.html">Mood</a>
+            <ul>
+              <li><a href="mood.html#happy">Happy</a></li>
+              <li><a href="mood.html#sad">Sad</a></li>
+              <li><a href="mood.html#adventurous">Adventurous</a></li>
+              <li><a href="mood.html#motivated">Motivated</a></li>
+              <li><a href="mood.html#frustrated">Frustrated</a></li>
+            </ul>
+          </li>
+          <li><a href="latest_releases.html">Latest Releases</a></li>
+          <li><a href="#">Based on your last read</a></li>
+          <li class="nav-contact"><a href="contact.html" aria-current="page">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main style="padding-top: 120px; max-width: 980px; margin: 0 auto;">
+    <section aria-labelledby="contactHeading">
+      <h2 id="contactHeading" class="section-title">Feedback & Support</h2>
+      <div id="formSuccess" class="success-banner" role="status" aria-live="polite">Thanks for your feedback! We’ll get back to you soon.</div>
+
+      <!-- Demonstrates: action/method, labels, various input types, select/optgroup, textarea, validation, fieldset/legend, accessible submit -->
+      <form action="/submit" method="post" novalidate aria-describedby="formHelp" style="background: rgba(120, 100, 63, 0.35); padding: 20px; border-radius: 12px; border: 1px solid rgba(212, 165, 116, 0.2); backdrop-filter: blur(8px);">
+        <p id="formHelp" class="muted" style="margin-bottom: 16px;">Fields marked * are required.</p>
+
+        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
+          <legend>Personal Information</legend>
+          <div class="form-row">
+            <label for="fullName">Full Name *</label>
+            <input id="fullName" name="fullName" type="text" required minlength="2" maxlength="60" pattern="^[A-Za-z\s.'-]+$" placeholder="Jane Doe">
+          </div>
+          <div class="form-row">
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" required placeholder="jane@example.com">
+          </div>
+          <div class="form-row">
+            <label for="age">Age</label>
+            <input id="age" name="age" type="number" min="13" max="120" placeholder="18">
+          </div>
+        </fieldset>
+
+        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
+          <legend>Support Details</legend>
+          <div class="form-row">
+            <label for="urgency">Urgency *</label>
+            <select id="urgency" name="urgency" required>
+              <option value="" disabled selected>Select urgency</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <span>Issue Type *</span>
+            <div class="issue-options">
+              <div class="option-radio">
+                <input id="issue_question" name="issueType" type="radio" value="question" required>
+                <label for="issue_question">Question</label>
+              </div>
+              <div class="option-radio">
+                <input id="issue_feature" name="issueType" type="radio" value="feature">
+                <label for="issue_feature">Feature Request</label>
+              </div>
+            </div>
+            <div id="questionDetailsRow" class="form-subrow issue-details-row" style="display:none">
+              <label for="questionDetails">Your Question *</label>
+              <textarea id="questionDetails" name="questionDetails" rows="5" maxlength="1000" placeholder="Describe your question..."></textarea>
+            </div>
+            <div id="featureDetailsRow" class="form-subrow issue-details-row" style="display:none">
+              <label for="featureDetails">Your Feature Request *</label>
+              <textarea id="featureDetails" name="featureDetails" rows="5" maxlength="1000" placeholder="Describe the feature you'd like..."></textarea>
+            </div>
+          </div>
+          
+        </fieldset>
+
+        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
+          <legend>Feedback</legend>
+          <div class="form-row">
+            <label for="feedback">Feedback</label>
+            <textarea id="feedback" name="feedback" rows="5" maxlength="1000" placeholder="Add any other context..."></textarea>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn" aria-label="Submit contact form">Submit</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="contact-footer" style="margin-top: 48px;">
+    <div class="footer-header">
+      <h2>Contact Us!</h2>
+      <p>We'd love to hear from you!</p>
+    </div>
+    <div class="footer-contacts">
+      <ul>
+        <li><a href="mailto:bookmap@gmail.com" target="_blank">
+          <i class="fa-sharp fa-solid fa-envelope" style="color: #8d5356;"></i>
+          <span class="icon">bookmap@gmail.com</span>
+        </a></li>
+        <li><a href="tel:+38349123321" target="_blank">
+          <i class="fa-solid fa-phone" style="color: #8d5356;"></i>
+          <span class="icon">+383 49 123 123</span>
+        </a></li>
+        <li><a href="https://www.facebook.com" target="_blank">
+          <i class="fa-brands fa-facebook" style="color: #8d5356;"></i>
+          <span class="icon">BookMap</span>
+        </a></li>
+        <li><a href="https://www.instagram.com" target="_blank">
+          <i class="fa-brands fa-instagram" style="color: #8d5356;"></i>
+          <span class="icon">book_map</span>
+        </a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      const qRadio = document.getElementById('issue_question');
+      const fRadio = document.getElementById('issue_feature');
+      const qRow = document.getElementById('questionDetailsRow');
+      const qField = document.getElementById('questionDetails');
+      const fRow = document.getElementById('featureDetailsRow');
+      const fField = document.getElementById('featureDetails');
+      const form = document.querySelector('form');
+      const banner = document.getElementById('formSuccess');
+      function update() {
+        if (qRadio && qRadio.checked) {
+          qRow.style.display = 'grid';
+          qField.required = true;
+        } else {
+          qRow.style.display = 'none';
+          qField.required = false;
+        }
+        if (fRadio && fRadio.checked) {
+          fRow.style.display = 'grid';
+          fField.required = true;
+        } else {
+          fRow.style.display = 'none';
+          fField.required = false;
+        }
+      }
+      if (qRadio) qRadio.addEventListener('change', update);
+      if (fRadio) fRadio.addEventListener('change', update);
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          // Use constraint validation to check fields
+          if (form.reportValidity()) {
+            if (banner) {
+              banner.textContent = "Thanks for your feedback! We’ll get back to you soon.";
+              banner.style.display = 'block';
+              setTimeout(() => { banner.style.display = 'none'; }, 5000);
+            }
+            form.reset();
+            update();
+          } else {
+            if (banner) banner.style.display = 'none';
+          }
+        });
+      }
+      update();
+    })();
+  </script>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest Releases - BookMap</title>
+  <link rel="stylesheet" href="css/base_styles.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/mood_styles.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link href="https://fonts.googleapis.com/css2?family=Girasol&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="navbar" id="navbar">
+      <nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <span></span>
+        </button>
+        <div class="nav-container">
+          <img src="images/logo.png" alt="Logo" class="logo">
+          <h1 class="bookMap">BookMap</h1>
+          <ul id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#">Genre</a>
+              <ul>
+                <li><a href="genre.html#romance">Romance</a></li>
+                <li><a href="genre.html#drama">Drama</a></li>
+                <li><a href="genre.html#thriller">Thriller</a></li>
+                <li><a href="genre.html#action">Action</a></li>
+                <li><a href="genre.html#horror">Horror</a></li>
+                <li><a href="genre.html#history">History</a></li>
+                <li><a href="genre.html#psychology">Psychology</a></li>
+                <li><a href="genre.html#comedy">Comic Novel</a></li>
+              </ul>
+            </li>
+            <li><a href="mood.html">Mood</a>
+              <ul>
+                <li><a href="mood.html#happy">Happy</a></li>
+                <li><a href="mood.html#sad">Sad</a></li>
+                <li><a href="mood.html#adventurous">Adventurous</a></li>
+                <li><a href="mood.html#motivated">Motivated</a></li>
+                <li><a href="mood.html#frustrated">Frustrated</a></li>
+              </ul>
+            </li>
+            <li><a href="latest_releases.html">Latest Releases</a></li>
+            <li><a href="#">Based on your last read</a></li>
+            <li class="nav-contact"><a href="contact.html">Contact</a></li>
+            <li class="nav-search-container">
+              <div class="nav-search">
+                <input type="search" id="searchInput" placeholder="Search books" aria-label="Search books">
+                <button type="button" id="searchBtn" class="search-btn">
+                  <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
+                </button>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <section class="best-reviewed" aria-labelledby="bestHeading">
+      <div class="best-banner">
+        <div class="best-info">
+          <h1 id="bestHeading">The title of the best reviewed book</h1>
+          <h2 id="bestBy">The author of the best reviewed book.</h2>
+        </div>
+        <img id="bestHeroImage" class="best-book-img" src="#" alt="Best Reviewed Cover">
+      </div>
+    </section>
+
+    <section class="grid-section" aria-label="Latest book releases">
+      <h2 class="section-title">Latest Releases</h2>
+      <div id="grid" class="grid" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <!-- MODAL: universal viewer -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <div class="modal-left">
+        <div class="cover"><img id="modalCover" src="" alt=""></div>
+      </div>
+      <div class="modal-right">
+        <div class="modal-header">
+          <div>
+            <h2 id="modalTitle">Title</h2>
+            <p id="modalAuthor" class="muted">Author</p>
+          </div>
+          <button id="closeModal" class="close-btn" aria-label="Close viewer">✕</button>
+        </div>
+        <div id="modalDesc" class="modal-desc muted">Description</div>
+        <div class="modal-actions">
+          <a id="previewLink" class="preview-btn" href="#" target="_blank" rel="noopener noreferrer">Preview on Google Books</a>
+          <span id="noPreview" class="muted"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="contact-footer">
+    <div class="footer-header">
+      <h2>Contact Us!</h2>
+      <p>We'd love to hear from you!</p>
+    </div>
+    <div class="footer-contacts">
+      <ul>
+        <li><a href="mailto:bookmap@gmail.com" target="_blank">
+          <i class="fa-sharp fa-solid fa-envelope" style="color: #8d5356;"></i>
+          <span class="icon">bookmap@gmail.com</span>
+        </a></li>
+        <li><a href="tel:+38349123321" target="_blank">
+          <i class="fa-solid fa-phone" style="color: #8d5356;"></i>
+          <span class="icon">+383 49 123 123</span>
+        </a></li>
+        <li><a href="https://www.facebook.com" target="_blank">
+          <i class="fa-brands fa-facebook" style="color: #8d5356;"></i>
+          <span class="icon">BookMap</span>
+        </a></li>
+        <li><a href="https://www.instagram.com" target="_blank">
+          <i class="fa-brands fa-instagram" style="color: #8d5356;"></i>
+          <span class="icon">book_map</span>
+        </a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script src="js/latest_releases.js"></script>
+</body>
+</html>

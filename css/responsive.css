@@ -1,0 +1,217 @@
+/* ======================= */
+/* 9️⃣ Mobile / Responsive   */
+/* ======================= */
+
+/* fade in animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .navbar nav,
+  .nav-container { padding: 0 1rem;}
+
+
+
+  /* Hamburger styling */
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transition: var(--transition);
+  }
+  .menu-toggle:hover,
+  .menu-toggle:focus { transform: scale(1.05); }
+  .menu-toggle::before,
+  .menu-toggle::after,
+  .menu-toggle span { width: 26px; height: 2.5px; border-radius: 2px; }
+  .menu-toggle::before { top: 13px; }
+  .menu-toggle span { top: 20.5px; }
+  .menu-toggle::after { top: 28px; }
+  .menu-toggle.active::before { top: 20.5px; }
+  .menu-toggle.active::after { top: 20.5px; }
+
+  /* Side drawer menu */
+  .navbar ul {
+    display: none;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 4rem 1.5rem 2rem;
+    background: rgba(101, 71, 59, 0.95);
+    backdrop-filter: blur(20px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70vw;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+  }
+
+  .navbar.open ul {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transform: translateX(0);
+  }
+
+  .navbar a {
+    padding: 0.5rem 3rem;
+    border-radius: var(--radius);
+    font-size: 1.1rem;
+    transition: var(--transition);
+    display: block;
+  }
+  .navbar a:hover,
+  .navbar a:focus { transform: translateX(8px); background: rgba(255,255,255,0.15); }
+
+  /* Submenu accordion */
+  nav ul ul {
+    display: none !important;
+    position: static;
+    background: transparent;
+    box-shadow: none;
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin-top: 0.5rem;
+    border-left: 3px solid rgba(255,255,255,0.2);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+  }
+  nav ul ul::before { display: none; }
+
+  nav ul li.active > ul {
+    display: block !important;
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
+  }
+  
+  /* Hide hamburger toggle when submenu is open */
+  .navbar.submenu-open .menu-toggle {
+    display: none !important;
+  }
+  
+  /* Back button in submenu */
+  .submenu-back-btn {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    width: 100%;
+    text-align: left;
+  }
+  
+  nav ul li.active > ul .submenu-back-btn {
+    display: flex;
+  }
+  
+  .submenu-back-btn:hover,
+  .submenu-back-btn:focus {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-4px);
+  }
+  
+  .submenu-back-btn i {
+    font-size: 0.9rem;
+  }
+
+  nav ul li:has(ul) > a::after { content: '▼'; font-size: 0.85rem; margin-left: auto; transition: transform 0.3s ease; }
+  nav ul li.active > a::after { transform: rotate(180deg); }
+
+  nav ul li > a { cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+
+  /* Search at top of toggle menu only (not in desktop navbar) */
+  .nav-search-container {
+    display: block !important; /* Show only in mobile toggle menu */
+    order: -1; /* Move to top */
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+  .nav-search { 
+    min-width: 100%; 
+    border-radius: 40px; 
+    background: rgba(255,255,255,0.1); 
+    backdrop-filter: blur(10px); 
+    margin: 0; 
+  }
+  .nav-search:focus-within { 
+    box-shadow: 0 0 0 3px rgba(212,165,116,0.3); 
+  }
+
+  /* Other sections */
+  .lastread-container { grid-template-columns: 1fr; padding: 1.5rem 1rem; gap: 1.5rem; }
+  .mood-container { flex-wrap: wrap; gap: 1rem; }
+  .mood-item { min-height: 90px; font-size: 0.95rem; border-radius: var(--radius); transition: var(--transition); }
+  .mood-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .genre-container { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+}
+
+/* ======================= */
+/* Standard Breakpoints */
+/* ======================= */
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .app {
+    padding: 2rem;
+  }
+  
+  .navbar nav {
+    padding: 0 2rem;
+  }
+  
+  .nav-container {
+    padding: 0 2rem;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 18px;
+  }
+  
+  .lastread-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .genre-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .mood-container {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+}
+
+/* Reduced Motion (Accessibility - WCAG Requirement) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

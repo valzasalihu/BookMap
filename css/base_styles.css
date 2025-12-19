@@ -1,0 +1,26 @@
+:root {
+  --primary: #8B5E3C;
+  --primary-dark: #6A3F3A;
+  --accent: #D4A574;
+  --bg: #E5D3B7;
+  --text: #333;
+  --light: #fff;
+  --shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  --transition: all 0.3s ease;
+  --radius: 16px;
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
