@@ -5,7 +5,7 @@ const bestHeroImage = document.getElementById('bestHeroImage');
 const API = 'https://www.googleapis.com/books/v1/volumes';
 
 async function fetchLatest({ q = 'fiction', max = 30, year } = {}) {
-  const yearFilter = year ? `+inpublisher:${year}` : '';
+  const yearFilter = year ? `+publishedDate:[${year}-01-01 TO ${year}-12-31]` : '';
   const url = `${API}?q=${encodeURIComponent(q + yearFilter)}&orderBy=newest&maxResults=${max}`;
   const res = await fetch(url);
   const data = await res.json();
