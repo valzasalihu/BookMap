@@ -18,7 +18,11 @@
     <div class="book-outer">
       <div class="book">
         <div class="hardcover left">
-          <img id="bookCoverFull" src="" alt="Cover">
+            <video id="bookVideo" controls preload="metadata" style="display:block;">
+            <source id="bookVideoSource" src="" type="video/mp4" >
+            <track id="bookCaptions" kind="subtitles" src="" srclang="en" label="English" default>
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="pages-container right">
           <div class="pages-scroll" id="fullBookContent"></div>
@@ -259,7 +263,9 @@
               data-title="Pride and Prejudice"
               data-author="Jane Austen"
               data-cover="images/recommend-1.png"
-              data-content="books/pride-and-prejudice.txt">
+              data-content="images\media\pride-and-prejudice\pride-and-prejudice.txt"
+              data-video="images\media\pride-and-prejudice\prideAndPrejudice-trailer.mp4"
+              data-caption="images\media\pride-and-prejudice\prideAndPrejudice-captions.vtt">
                 Read Now
             </button>
           </div>
@@ -273,7 +279,9 @@
               data-title="The Silent Patient"
               data-author="Alex Michaelides"
               data-cover="images/recommend-2.png"
-              data-content="books/the-silent-patient.txt">
+              data-content="images\media\the-silent-patient\the-silent-patient.txt"
+              data-video="https://www.youtube.com/watch?v=WhGKjRjuYAA"
+              data-caption="">
                 Read Now
             </button>
           </div>
@@ -287,7 +295,9 @@
               data-title="1984"
               data-author="George Orwell"
               data-cover="images/recommend-3.jpg"
-              data-content="books/1984.txt">
+              data-content="images\media\1984\1984.txt"
+              data-video="https://www.youtube.com/watch?v=SXq3yMhobEU"
+              data-caption="">
                 Read Now
             </button>
           </div>

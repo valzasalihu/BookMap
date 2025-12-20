@@ -177,9 +177,20 @@ if (searchBtn && searchInput) {
       showFeedback('Too short.', 'error');
       return;
     }
-
-    // Redirect to search results
-    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+    // Perform client-side search against local JSON 'API' and show modal results
+    fetch('data/books.json')
+      .then(r => {
+        if (!r.ok) throw new Error('books.json not found');
+        return r.json();
+      })
+      .then(list => {
+        const q = query.toLowerCase();
+        const matches = list.filter(b => (b.title + ' ' + b.author + ' ' + (b.tags||[]).join(' ')).toLowerCase().includes(q));
+        showSearchModal(query, matches);
+      })
+      .catch(err => {
+        showFeedback('Search failed: ' + err.message, 'error');
+      });
   }
 }
 
@@ -236,16 +247,20 @@ if (scrollLink) {
 document.querySelectorAll('.read-book-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const viewer = document.getElementById('bookViewer');
-    const cover = document.getElementById('bookCoverFull');
+    const video = document.getElementById('bookVideo');
+    const videoSource = document.getElementById('bookVideoSource');
+    const captions = document.getElementById('bookCaptions');
     const content = document.getElementById('fullBookContent');
     const title = document.getElementById('overlayTitle');
     const author = document.getElementById('overlayAuthor');
 
     // If this page doesn't have the full-screen viewer, do nothing
-    if (!viewer || !cover || !content || !title || !author) return;
+    if (!viewer || !content || !title || !author) return;
 
-    // Set data
-    cover.src = btn.dataset.cover;
+    // Remove any existing YouTube iframe if present
+    const existingIframe = document.querySelector('#bookViewer iframe');
+    if (existingIframe) existingIframe.remove();
+
     title.textContent = btn.dataset.title;
     author.textContent = 'by ' + btn.dataset.author;
     content.innerHTML = '<p style="text-align:center; padding:100px 0; opacity:0.5;">Loading your book...</p>';
@@ -264,6 +279,61 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
         content.innerHTML = '<p style="color:#800; text-align:center;">Book content not available yet.</p>';
       });
 
+    if (btn.dataset.video) {
+      const videoUrl = btn.dataset.video.trim();
+      const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+      const youtubeMatch = videoUrl.match(youtubeRegex);
+
+      if (youtubeMatch && youtubeMatch[1]) {
+        // YouTube video: Hide native video and embed iframe
+        if (video) video.style.display = 'none';
+
+        const videoId = youtubeMatch[1];
+        const iframe = document.createElement('iframe');
+        iframe.id = 'youtubeEmbed'; // For easy reference if needed
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; // Autoplay (may require mute or user gesture); rel=0 hides related videos
+        iframe.width = '100%';
+        iframe.height = '400'; // Adjust based on your layout (or use CSS for responsiveness)
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+
+        // Insert iframe where the video would be (assuming #bookVideo is in a container; adjust selector if needed)
+        const videoContainer = video ? video.parentNode : viewer;
+        videoContainer.insertBefore(iframe, video || null);
+      } else {
+        // Non-YouTube (direct video file): Use native video
+        if (video) {
+          video.style.display = 'block';
+          try { video.pause(); } catch (e) {}
+          videoSource.src = videoUrl;
+          if (captions && btn.dataset.caption) {
+            captions.src = btn.dataset.caption || '';
+            try { captions.setAttribute('default', ''); } catch (e) {}
+
+            const tryShowTrack = () => {
+              try {
+                const tracks = video.textTracks;
+                if (tracks && tracks.length > 0) tracks[0].mode = 'showing';
+              } catch (e) {}
+            };
+
+            // Try to enable after metadata loads and after a short delay
+            video.addEventListener('loadedmetadata', tryShowTrack, { once: true });
+            setTimeout(tryShowTrack, 250);
+          } else if (captions) {
+            captions.removeAttribute('default');
+            captions.src = '';
+          }
+          video.load();
+          video.play().catch(() => {});
+        }
+      }
+    } else {
+      // No video: Hide native video
+      if (video) video.style.display = 'none';
+    }
+
     viewer.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
@@ -275,7 +345,86 @@ if (exitBookBtn) {
   exitBookBtn.addEventListener('click', () => {
     const viewer = document.getElementById('bookViewer');
     if (!viewer) return;
+    // If a video is playing, pause and unload its source for cleanup
+    const video = document.getElementById('bookVideo');
+    const videoSource = document.getElementById('bookVideoSource');
+    const captions = document.getElementById('bookCaptions');
+    if (video) {
+      try { video.pause(); } catch (e) {}
+      if (videoSource) videoSource.src = '';
+      if (captions) captions.src = '';
+      video.load();
+      video.style.display = 'none';
+    }
+    // Remove YouTube iframe if present
+    const iframe = document.querySelector('#bookViewer iframe');
+    if (iframe) iframe.remove();
     viewer.classList.remove('active');
     document.body.style.overflow = 'auto';
   });
 }
+
+  // --- Search modal helpers (render results inline; no separate results page) ---
+  function createElem(tag, props = {}, children = []){
+    const el = document.createElement(tag);
+    Object.entries(props).forEach(([k,v])=>{
+      if (k === 'class') el.className = v;
+      else if (k === 'style') el.style.cssText = v;
+      else el.setAttribute(k,v);
+    });
+    (Array.isArray(children) ? children : [children]).forEach(c => { if (c) el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return el;
+  }
+
+  function openBookByTitle(title){
+    const normalized = title.toLowerCase();
+    const buttons = Array.from(document.querySelectorAll('.read-book-btn'));
+    let found = null;
+    for (const b of buttons) { if ((b.dataset.title||'').toLowerCase() === normalized) { found = b; break; } }
+    if (!found) {
+      for (const b of buttons) { if ((b.dataset.title||'').toLowerCase().includes(normalized) || (b.dataset.author||'').toLowerCase().includes(normalized)) { found = b; break; } }
+    }
+    if (found) { try { found.click(); return; } catch (e) { console.warn(e); } }
+    // not on this page or not found — navigate to index and ask it to open
+    window.location.href = `index.html?open=${encodeURIComponent(title)}`;
+  }
+
+  function showSearchModal(query, matches){
+    // remove existing
+    const existing = document.getElementById('searchModalOverlay');
+    if (existing) existing.remove();
+
+    const overlay = createElem('div',{id:'searchModalOverlay', class:'search-modal', style:'position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:flex-start;justify-content:center;padding:48px;z-index:100000;'});
+    const panel = createElem('div',{class:'search-panel', style:'width:min(1000px,96%);max-height:80vh;overflow:auto;background:#fff;border-radius:10px;padding:18px;'});
+    const header = createElem('div',{style:'display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;'});
+    const title = createElem('h2',{},[`Results for "${query}"`]);
+    const close = createElem('button',{style:'border:0;background:transparent;font-size:20px;cursor:pointer;'},['✕']);
+    close.addEventListener('click', ()=> overlay.remove());
+    header.appendChild(title); header.appendChild(close);
+    panel.appendChild(header);
+
+    if (!matches || matches.length === 0){
+      const p = createElem('p',{style:'color:#800;'},['No results found.']);
+      panel.appendChild(p);
+    } else {
+      const grid = createElem('div',{style:'display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;'});
+      matches.forEach(b => {
+        const card = createElem('div',{style:'background:#fff;border:1px solid #eee;padding:10px;border-radius:8px;'});
+        const img = createElem('img',{src:b.cover || 'images/recommend-1.png', style:'width:100%;height:140px;object-fit:cover;border-radius:6px;'});
+        const t = createElem('h3',{},[b.title]);
+        const a = createElem('p',{style:'color:#666;margin:6px 0 10px;'},[b.author]);
+        const btnRow = createElem('div',{style:'display:flex;gap:8px;'});
+        const openBtn = createElem('button',{style:'flex:1;padding:8px;border-radius:6px;border:0;background:#8d5356;color:#fff;cursor:pointer;'},['Open']);
+        openBtn.addEventListener('click', ()=> { overlay.remove(); openBookByTitle(b.title); });
+        const detailsBtn = createElem('button',{style:'flex:1;padding:8px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer;'},['Details']);
+        detailsBtn.addEventListener('click', ()=> { alert(b.title + '\nby ' + b.author); });
+        btnRow.appendChild(openBtn); btnRow.appendChild(detailsBtn);
+        card.appendChild(img); card.appendChild(t); card.appendChild(a); card.appendChild(btnRow);
+        grid.appendChild(card);
+      });
+      panel.appendChild(grid);
+    }
+
+    overlay.appendChild(panel);
+    document.body.appendChild(overlay);
+  }

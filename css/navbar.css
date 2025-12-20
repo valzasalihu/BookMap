@@ -16,7 +16,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Nav container padding to match genre page positioning */
+
 .navbar nav {
   padding: 0 40px;
   display: flex;
@@ -50,7 +50,6 @@
   flex-wrap: wrap;
   list-style: none;
 }
-/* Make each top-level item a positioning context for its dropdown */
 nav ul li {
   position: relative;
 }
@@ -68,14 +67,13 @@ nav ul li {
   transform: translateY(-2px);
 }
 
-/* Desktop: Add dropdown arrows without :has (broader support) */
 nav ul li > a {
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
 nav ul li > ul + a::after,
-nav ul li:has(ul) > a::after { /* second selector for browsers that support :has, keeps arrow placement */
+nav ul li:has(ul) > a::after {
   content: '▼';
   font-size: 0.7rem;
   transition: transform 0.3s ease;
@@ -145,7 +143,7 @@ nav ul ul {
   backdrop-filter: blur(15px);
   border-radius: var(--radius);
   width: auto;
-  min-width: 190px;     /* make dropdown at least as wide for comfortable text */
+  min-width: 190px;
   padding: 0.75rem 0;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
   opacity: 0;
@@ -163,7 +161,7 @@ nav ul ul li {
   width: 100%;
 }
 
-/* Show dropdown */
+/*show dropdown */
 nav ul li:hover > ul,
 nav ul li:focus-within > ul,
 nav ul li > ul:hover,
@@ -174,7 +172,6 @@ nav ul li > ul:focus-within {
   pointer-events: auto;
 }
 
-/* Force-hide dropdown when JS adds .closing after a click */
 nav ul li.closing > ul {
   opacity: 0 !important;
   visibility: hidden !important;
@@ -182,24 +179,23 @@ nav ul li.closing > ul {
   pointer-events: none !important;
 }
 
-/* Optional: tiny arrow pointing up */
 nav ul ul::before {
   content: '';
   position: absolute;
   top: -7px;
-  left: 20px;                    /* adjust if you want the arrow closer/farther from the left */
+  left: 20px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 8px solid rgba(101, 71, 59, 0.97);
 }
 
-/* Dropdown links */
+/*dropdown links */
 nav ul ul a {
   display: block;
-  padding: 0.9rem 1.6rem;   /* larger clickable area */
+  padding: 0.9rem 1.6rem;
   color: #f8f0e6;
   font-weight: 500;
-  font-size: 1rem;          /* slightly bigger text */
+  font-size: 1rem;
   white-space: nowrap;
   transition: var(--transition);
 }
@@ -209,7 +205,7 @@ nav ul ul a:hover {
   transform: translateX(6px);
 }
 
-/* Hamburger Menu Icon */
+/*hamburger menu icon */
 .menu-toggle {
   display: none;
   background: none;
@@ -237,12 +233,12 @@ nav ul ul a:hover {
 .menu-toggle span { top: 19px; }
 .menu-toggle::after { top: 26px; }
 
-/* Active state (X) */
+/*active state (X) */
 .menu-toggle.active::before { transform: rotate(45deg); top: 19px; }
 .menu-toggle.active::after { transform: rotate(-45deg); top: 19px; }
 .menu-toggle.active span { opacity: 0; }
 
-/* Mobile: Show menu toggle */
+/*mobile: show menu toggle */
 @media (max-width: 768px) {
   .navbar nav {
     padding: 0 1rem;

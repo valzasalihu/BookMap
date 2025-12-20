@@ -8,79 +8,11 @@
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/contact.css">
   <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Girasol&display=swap" rel="stylesheet">
-  <style>
-    /* Contact form fields styled to match mood book-card background */
-    .form-row input,
-    .form-row select,
-    .form-row textarea {
-      background: rgba(255, 255, 255, 0.25); /* lighter than form/card background */
-      border: 1px solid rgba(212, 165, 116, 0.2);
-      color: #fff;
-      border-radius: 10px;
-      padding: 10px 12px;
-      width: 100%;
-      outline: none;
-    }
-    /* Override select text for better contrast in dropdown */
-    .form-row select { color: var(--primary-dark); }
-    .form-row select option { color: var(--primary-dark); background: #fff; }
-    .form-row input::placeholder,
-    .form-row textarea::placeholder { color: rgba(255,255,255,0.8); }
-    .form-row input:focus,
-    .form-row select:focus,
-    .form-row textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.25);
-    }
-    fieldset { border: 1px solid rgba(212, 165, 116, 0.2); }
-    legend { color: #fff; }
-    label { color: #fff; }
-    .form-row { display: grid; gap: 8px; margin-bottom: 12px; }
-    .form-subrow { display: grid; gap: 8px; margin-top: 8px; width: 100%; }
-    /* Issue type layout: radios inline, details below */
-    .issue-options { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
-    .issue-details-row { margin-left: 28px; width: 100%; }
-    /* Align checkboxes/radios neatly with labels */
-    .option-check, .option-radio { display: flex; align-items: center; gap: 8px; }
-    .form-row input[type="checkbox"], .form-row input[type="radio"] { margin: 0; }
-    .form-row input[type="checkbox"], .form-row input[type="radio"] { accent-color: var(--accent); }
-    .option-radio label { white-space: nowrap; }
-    /* Page text colors to match footer */
-    .section-title, h1, h2, h3, p, span, label, legend { color: var(--primary-dark); }
-    .muted { color: #777; }
-    /* Success banner */
-    .success-banner {
-      display: none;
-      background: rgba(212, 165, 116, 0.18);
-      border: 1px solid rgba(212, 165, 116, 0.35);
-      color: var(--primary-dark);
-      padding: 12px 14px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-    }
-    /* Submit button styled like mood "Happy" pill */
-    .submit-btn{
-      padding:8px 14px;
-      border-radius:999px;
-      background:#ececec;
-      color:var(--accent);
-      font-weight:600;
-      cursor:pointer;
-      transition:all .15s;
-      border:0;
-      display:inline-block;
-    }
-    .submit-btn:hover{
-      transform:translateY(-2px);
-      background: var(--primary);
-      color:white;
-    }
-    .form-actions{ display:flex; justify-content:center; margin-top: 8px; }
-  </style>
 </head>
 <body>
   <header class="navbar" id="navbar">
@@ -122,82 +54,196 @@
     </nav>
   </header>
 
-  <main style="padding-top: 120px; max-width: 980px; margin: 0 auto;">
-    <section aria-labelledby="contactHeading">
-      <h2 id="contactHeading" class="section-title">Feedback & Support</h2>
-      <div id="formSuccess" class="success-banner" role="status" aria-live="polite">Thanks for your feedback! We’ll get back to you soon.</div>
+  <main class="contact-main">
+    <section aria-labelledby="contactHeading" class="contact-container">
+      <div class="contact-header">
+        <h1 id="contactHeading" class="section-title">Feedback & Support</h1>
+        <p class="section-subtitle">We value your input. Let us know how we can help!</p>
+      </div>
 
-      <!-- Demonstrates: action/method, labels, various input types, select/optgroup, textarea, validation, fieldset/legend, accessible submit -->
-      <form action="/submit" method="post" novalidate aria-describedby="formHelp" style="background: rgba(120, 100, 63, 0.35); padding: 20px; border-radius: 12px; border: 1px solid rgba(212, 165, 116, 0.2); backdrop-filter: blur(8px);">
-        <p id="formHelp" class="muted" style="margin-bottom: 16px;">Fields marked * are required.</p>
+      <div id="formSuccess" class="success-banner" role="status" aria-live="polite">
+        <div class="banner-content">
+          <i class="fas fa-check-circle"></i>
+          <span>Thanks for your feedback! We'll get back to you soon.</span>
+        </div>
+      </div>
 
-        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
-          <legend>Personal Information</legend>
-          <div class="form-row">
-            <label for="fullName">Full Name *</label>
-            <input id="fullName" name="fullName" type="text" required minlength="2" maxlength="60" pattern="^[A-Za-z\s.'-]+$" placeholder="Jane Doe">
-          </div>
-          <div class="form-row">
-            <label for="email">Email *</label>
-            <input id="email" name="email" type="email" required placeholder="jane@example.com">
-          </div>
-          <div class="form-row">
-            <label for="age">Age</label>
-            <input id="age" name="age" type="number" min="13" max="120" placeholder="18">
-          </div>
-        </fieldset>
+      <div id="formError" class="error-banner" role="alert" aria-live="assertive">
+        <div class="banner-content">
+          <i class="fas fa-exclamation-circle"></i>
+          <span>Please check the highlighted fields.</span>
+        </div>
+      </div>
 
-        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
-          <legend>Support Details</legend>
+      <form id="contactForm" class="contact-form" novalidate aria-describedby="formHelp">
+        <p id="formHelp" class="form-help">Fields marked * are required.</p>
+
+        <fieldset class="form-fieldset">
+          <legend class="fieldset-legend">
+            <i class="fas fa-user-circle"></i>
+            Personal Information
+          </legend>
+          
           <div class="form-row">
-            <label for="urgency">Urgency *</label>
-            <select id="urgency" name="urgency" required>
-              <option value="" disabled selected>Select urgency</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <span>Issue Type *</span>
-            <div class="issue-options">
-              <div class="option-radio">
-                <input id="issue_question" name="issueType" type="radio" value="question" required>
-                <label for="issue_question">Question</label>
+            <div class="form-group">
+              <label for="fullName" class="form-label">
+                Full Name *
+                <span class="label-hint">Minimum 2 characters</span>
+              </label>
+              <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input id="fullName" name="fullName" type="text" required 
+                       minlength="2" maxlength="60" 
+                       pattern="^[A-Za-z\s.'-]+$"
+                       placeholder="Jane Doe"
+                       class="form-input">
               </div>
-              <div class="option-radio">
-                <input id="issue_feature" name="issueType" type="radio" value="feature">
-                <label for="issue_feature">Feature Request</label>
-              </div>
-            </div>
-            <div id="questionDetailsRow" class="form-subrow issue-details-row" style="display:none">
-              <label for="questionDetails">Your Question *</label>
-              <textarea id="questionDetails" name="questionDetails" rows="5" maxlength="1000" placeholder="Describe your question..."></textarea>
-            </div>
-            <div id="featureDetailsRow" class="form-subrow issue-details-row" style="display:none">
-              <label for="featureDetails">Your Feature Request *</label>
-              <textarea id="featureDetails" name="featureDetails" rows="5" maxlength="1000" placeholder="Describe the feature you'd like..."></textarea>
+              <div class="input-feedback"></div>
             </div>
           </div>
           
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email" class="form-label">Email *</label>
+              <div class="input-with-icon">
+                <i class="fas fa-envelope"></i>
+                <input id="email" name="email" type="email" required 
+                       placeholder="jane@example.com"
+                       class="form-input">
+              </div>
+              <div class="input-feedback"></div>
+            </div>
+            
+            <div class="form-group">
+              <label for="age" class="form-label">
+                Age
+                <span class="label-hint">Optional</span>
+              </label>
+              <div class="input-with-icon">
+                <i class="fas fa-birthday-cake"></i>
+                <input id="age" name="age" type="number" 
+                       min="13" max="120" 
+                       placeholder="18"
+                       class="form-input">
+              </div>
+            </div>
+          </div>
         </fieldset>
 
-        <fieldset style="border: 1px solid rgba(255,255,255,0.2); padding: 16px; border-radius: 8px; margin-bottom: 18px;">
-          <legend>Feedback</legend>
+        <fieldset class="form-fieldset">
+          <legend class="fieldset-legend">
+            <i class="fas fa-headset"></i>
+            Support Details
+          </legend>
+          
           <div class="form-row">
-            <label for="feedback">Feedback</label>
-            <textarea id="feedback" name="feedback" rows="5" maxlength="1000" placeholder="Add any other context..."></textarea>
+            <div class="form-group">
+              <label for="urgency" class="form-label">Urgency *</label>
+              <div class="select-with-icon">
+                <i class="fas fa-clock"></i>
+                <select id="urgency" name="urgency" required class="form-input">
+                  <option value="" disabled selected>Select urgency level</option>
+                  <option value="low">Low - General inquiry</option>
+                  <option value="medium">Medium - Need assistance</option>
+                  <option value="high">High - Urgent issue</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Issue Type *</label>
+              <div class="issue-type-buttons">
+                <div class="issue-button">
+                  <input type="radio" id="issue_question" name="issueType" value="question" required>
+                  <label for="issue_question">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Question</span>
+                  </label>
+                </div>
+                
+                <div class="issue-button">
+                  <input type="radio" id="issue_feature" name="issueType" value="feature">
+                  <label for="issue_feature">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Feature Request</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="questionDetailsRow" class="issue-details-row">
+            <div class="form-group">
+              <label for="questionDetails" class="form-label">Your Question *</label>
+              <div class="input-with-icon">
+                <i class="fas fa-comment-alt"></i>
+                <textarea id="questionDetails" name="questionDetails" rows="4" 
+                          maxlength="1000"
+                          placeholder="Describe your question in detail..."
+                          class="form-input"></textarea>
+              </div>
+              <div class="char-counter">
+                <span id="questionCharCount">0</span>/1000 characters
+              </div>
+            </div>
+          </div>
+          
+          <div id="featureDetailsRow" class="issue-details-row">
+            <div class="form-group">
+              <label for="featureDetails" class="form-label">Your Feature Request *</label>
+              <div class="input-with-icon">
+                <i class="fas fa-lightbulb"></i>
+                <textarea id="featureDetails" name="featureDetails" rows="4" 
+                          maxlength="1000"
+                          placeholder="Describe the feature you'd like to see..."
+                          class="form-input"></textarea>
+              </div>
+              <div class="char-counter">
+                <span id="featureCharCount">0</span>/1000 characters
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend class="fieldset-legend">
+            <i class="fas fa-comment-dots"></i>
+            Additional Feedback
+          </legend>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="feedback" class="form-label">
+                Feedback
+                <span class="label-hint">Optional</span>
+              </label>
+              <div class="input-with-icon">
+                <i class="fas fa-pen"></i>
+                <textarea id="feedback" name="feedback" rows="4" 
+                          maxlength="1000"
+                          placeholder="Any other comments or suggestions..."
+                          class="form-input"></textarea>
+              </div>
+              <div class="char-counter">
+                <span id="feedbackCharCount">0</span>/1000 characters
+              </div>
+            </div>
           </div>
         </fieldset>
 
         <div class="form-actions">
-          <button type="submit" class="submit-btn" aria-label="Submit contact form">Submit</button>
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i>
+            Submit Feedback
+          </button>
         </div>
       </form>
     </section>
   </main>
 
-  <footer class="contact-footer" style="margin-top: 48px;">
+  <footer class="contact-footer">
     <div class="footer-header">
       <h2>Contact Us!</h2>
       <p>We'd love to hear from you!</p>
@@ -224,54 +270,7 @@
     </div>
   </footer>
 
-  <script>
-    (function(){
-      const qRadio = document.getElementById('issue_question');
-      const fRadio = document.getElementById('issue_feature');
-      const qRow = document.getElementById('questionDetailsRow');
-      const qField = document.getElementById('questionDetails');
-      const fRow = document.getElementById('featureDetailsRow');
-      const fField = document.getElementById('featureDetails');
-      const form = document.querySelector('form');
-      const banner = document.getElementById('formSuccess');
-      function update() {
-        if (qRadio && qRadio.checked) {
-          qRow.style.display = 'grid';
-          qField.required = true;
-        } else {
-          qRow.style.display = 'none';
-          qField.required = false;
-        }
-        if (fRadio && fRadio.checked) {
-          fRow.style.display = 'grid';
-          fField.required = true;
-        } else {
-          fRow.style.display = 'none';
-          fField.required = false;
-        }
-      }
-      if (qRadio) qRadio.addEventListener('change', update);
-      if (fRadio) fRadio.addEventListener('change', update);
-      if (form) {
-        form.addEventListener('submit', function(e) {
-          e.preventDefault();
-          // Use constraint validation to check fields
-          if (form.reportValidity()) {
-            if (banner) {
-              banner.textContent = "Thanks for your feedback! We’ll get back to you soon.";
-              banner.style.display = 'block';
-              setTimeout(() => { banner.style.display = 'none'; }, 5000);
-            }
-            form.reset();
-            update();
-          } else {
-            if (banner) banner.style.display = 'none';
-          }
-        });
-      }
-      update();
-    })();
-  </script>
+  <script src="js/contact.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

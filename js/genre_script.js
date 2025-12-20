@@ -1,11 +1,3 @@
-/* ===========
-   Grid + Bookshelf + Viewer
-   =========== */
-
-/* DOM refs */
-
-// Navbar / toggle behavior is handled globally in js/script.js
-// This file only contains genre-page specific logic below.
 const grid = document.getElementById('grid');
 const shelfContainer = document.getElementById('shelfContainer');
 // Use a page-specific name to avoid clashing with global searchInput in script.js
