@@ -1,14 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BookMap</title>
+  <title>Explore Books by Genre | BookMap</title>
   <link rel="stylesheet" href="css/base_styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/genre_styles.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/recent_activity.css">
   <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -90,29 +91,29 @@
     </section>
   </div>
 
-  <!-- MODAL: universal viewer -->
-  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-card" role="document">
-      <div class="modal-left">
-        <div class="cover"><img id="modalCover" src="" alt=""></div>
-      </div>
-      <div class="modal-right">
-        <div class="modal-header">
-          <div>
-            <h2 id="modalTitle">Title</h2>
-            <p id="modalAuthor" class="muted">Author</p>
-          </div>
-          <button id="closeModal" class="close-btn" aria-label="Close viewer">✕</button>
-        </div>
-        <div id="modalDesc" class="modal-desc muted">Description</div>
-        <div class="modal-actions">
-          <a id="previewLink" class="preview-btn" href="#" target="_blank" rel="noopener noreferrer">Preview on Google Books</a>
-          <span id="noPreview" class="muted"></span>
-        </div>
+  <!-- Recent Activity -->
+  <section class="recent-activity-section">
+    <div class="recent-container">
+      <h3>Recently Viewed</h3>
+      <div class="table-wrapper">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th scope="col">Cover</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentBooksWidget">
+            <tr><td colspan="4" class="muted">No recent activity yet.</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
+  </section>
 
+  <!-- footer -->
 <footer class="contact-footer">
     <div class="footer-header">
       <h2>Contact Us!</h2>
@@ -140,8 +141,10 @@
     </div>
   </footer>
 
-   <script src="js/script.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/best_reviewed_modal.js"></script>
+  <script src="js/recent_activity.js"></script>
   <script src="js/genre_script.js"></script>
- 
+
 </body>
 </html>

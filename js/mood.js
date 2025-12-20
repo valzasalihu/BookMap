@@ -143,8 +143,13 @@ function openModal(book) {
   
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  // Persist this view for the Recently Viewed widget
+  if (typeof saveRecentBook === 'function') {
+    // `book` is already normalized with title, authors, cover, desc, previewLink
+    saveRecentBook(book);
+  }
   // Basic focus trap
-  closeModalBtn.focus();
+  if (closeModalBtn) closeModalBtn.focus();
 }
 
 function closeModal() {

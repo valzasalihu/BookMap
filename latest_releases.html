@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookMap</title>
+  <title>Latest Releases - BookMap</title>
   <link rel="stylesheet" href="css/base_styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/latest_releases.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/recent_activity.css">
   <link rel="shortcut icon" href="images/logo.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -62,6 +63,7 @@
       </nav>
     </header>
 
+    <!-- best reviewed -->
     <section class="best-reviewed" aria-labelledby="bestHeading">
       <div class="best-banner">
         <div class="best-info">
@@ -78,7 +80,7 @@
     </section>
   </div>
 
-  <!-- modal: universal viewer -->
+  <!-- MODAL: universal viewer -->
   <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card" role="document">
       <div class="modal-left">
@@ -101,6 +103,29 @@
     </div>
   </div>
 
+  <!-- Recent Activity -->
+  <section class="recent-activity-section">
+    <div class="recent-container">
+      <h3>Recently Viewed</h3>
+      <div class="table-wrapper">
+        <table class="recent-table">
+          <thead>
+            <tr>
+              <th scope="col">Cover</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="recentBooksWidget">
+            <tr><td colspan="4" class="muted">No recent activity yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+<!-- footer -->
   <footer class="contact-footer">
     <div class="footer-header">
       <h2>Contact Us!</h2>
@@ -129,6 +154,8 @@
   </footer>
 
   <script src="js/script.js"></script>
+  <script src="js/best_reviewed_modal.js"></script>
+  <script src="js/recent_activity.js"></script>
   <script src="js/latest_releases.js"></script>
 </body>
 </html>
