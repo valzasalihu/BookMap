@@ -3,7 +3,7 @@
     display:flex;
     gap:10px;
     flex-wrap:wrap;
-    margin:5rem 0 0 0;
+    margin:18px 0;
 }
 .mood-item{
     padding:8px 14px;
@@ -13,6 +13,7 @@
     font-weight:600;
     cursor:pointer;
     transition:all .15s;
+    flex:0 0 auto;
 }
 .mood-item:hover{
     transform:translateY(-2px);
@@ -25,9 +26,9 @@
     color: white;
 }
 .section-title{
-    margin:20px 0 20px 20px;
+    margin:12px 0;
     font-size:2rem;
-    color: var(--primary-dark);
+    color: black;
     font-family: 'Girasol', serif;
 }
 

@@ -161,7 +161,7 @@
   /* Other sections */
   .lastread-container { grid-template-columns: 1fr; padding: 1.5rem 1rem; gap: 1.5rem; }
   .mood-container { flex-wrap: wrap; gap: 1rem; }
-  .mood-item { min-height: 90px; font-size: 0.95rem; border-radius: var(--radius); transition: var(--transition); }
+  .mood-item {font-size: 0.95 rem; border-radius: var(--radius);transition: var(--transition); }
   .mood-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   .genre-container { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 }
