@@ -61,7 +61,6 @@ function renderGrid(books) {
       <div class="title">${escapeHtml(b.title)}</div>
       <div class="author">${escapeHtml(b.authors)}</div>
       <div class="meta">
-        ${b.pubDate ? `<span class="pub">${escapeHtml(shortDate(b.pubDate))}</span>` : ''}
         ${isNew ? `<span class="badge">New</span>` : ''}
       </div>
       ${b.rating ? `<div class="rating">★ ${b.rating.toFixed(1)}</div>` : ''}
