@@ -45,21 +45,20 @@ function escapeHtml(str) {
   return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
 }
 
-// Simple cache for fetchBooks
-const cache = new Map();
-
-// Fetch books from Google Books API
+// Fetch books from Google Books API with localStorage cache
 async function fetchBooks(query, max = 30) {
   const cacheKey = `${query}_${max}`;
-  if (cache.has(cacheKey)) {
-    return cache.get(cacheKey);
+  const cachedData = localStorage.getItem(cacheKey);
+  if (cachedData) {
+    return JSON.parse(cachedData);
   }
   const safeQuery = query || 'bestsellers fiction nonfiction'; // Fallback for empty
   try {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(safeQuery)}&maxResults=${max}&orderBy=relevance`);
     const data = await response.json();
-    const books = (data.items || []).map(v => {
-      const info = v.volumeInfo || {};
+    const { items = [] } = data; // Destructuring
+    const books = items.map(v => {
+      const { volumeInfo: info = {} } = v; // Destructuring
       return {
         id: v.id,
         title: info.title || 'Untitled',
@@ -69,7 +68,7 @@ async function fetchBooks(query, max = 30) {
         previewLink: v.accessInfo?.webReaderLink || info.previewLink || info.infoLink || '',
       };
     });
-    cache.set(cacheKey, books);
+    localStorage.setItem(cacheKey, JSON.stringify(books));
     return books;
   } catch (error) {
     console.error('Error fetching books:', error);
