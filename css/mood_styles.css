@@ -41,7 +41,7 @@ body {
 
 
 
-/* BEST REVIEWED */
+/*best reviewed */
 .best-reviewed{
     margin-top: 40px;
     border-radius:12px;
@@ -79,7 +79,7 @@ body {
     box-shadow:0 10px 30px rgba(0,0,0,0.4);
     transform:translateY(-6px)}
 
-/* GENRES */
+/*genres*/
 .genres{
     display:flex;
     gap:10px;
@@ -103,7 +103,7 @@ body {
     background:var(--primary);
     color:white}
 
-/* GRID */
+/*grid*/
 .section-title{
     margin:12px 0;
     font-size:2rem;
@@ -172,7 +172,7 @@ body {
 }
 
 
-/* MODAL viewer */
+/*modal viewer */
 .modal{
     position:fixed;
     inset:0;
@@ -187,6 +187,7 @@ body {
     opacity:1;
     pointer-events:auto;
 }
+
 .modal-card{
     background:white;
     border-radius:12px;
@@ -194,9 +195,12 @@ body {
     display:flex;
     gap:18px;
     max-width:900px;
+    max-height: 85vh;
+    overflow: hidden;
     width:94%;
     box-shadow:0 18px 50px rgba(0,0,0,0.35);
 }
+
 .modal-left .cover{
     width:210px;
     height:300px;
@@ -239,6 +243,9 @@ body {
     color:var(--muted);
     font-size:14px;
     min-height:110px;
+    overflow-y: auto;
+    max-height: 260px;
+    padding-right: 8px;
 }
 .modal-actions{
     margin-top:auto;

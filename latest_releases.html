@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Latest Book Releases | BookMap</title>
+  <title>Latest Releases - BookMap</title>
   <link rel="stylesheet" href="css/base_styles.css">
   <link rel="stylesheet" href="css/responsive.css">
-  <link rel="stylesheet" href="css/mood_styles.css">
+  <link rel="stylesheet" href="css/latest_releases.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/recent_activity.css">
@@ -49,7 +49,6 @@
               </ul>
             </li>
             <li><a href="latest_releases.html">Latest Releases</a></li>
-            <li><a href="#">Based on your last read</a></li>
             <li class="nav-contact"><a href="contact.html">Contact</a></li>
             <li class="nav-search-container">
               <div class="nav-search">
@@ -81,24 +80,25 @@
     </section>
   </div>
 
-<!-- Recent Activity -->
-  <section class="recent-activity-section">
-    <div class="recent-container">
-      <h3>Recently Viewed</h3>
-      <div class="table-wrapper">
-        <table class="recent-table">
-          <thead>
-            <tr>
-              <th scope="col">Cover</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody id="recentBooksWidget">
-            <tr><td colspan="4" class="muted">No recent activity yet.</td></tr>
-          </tbody>
-        </table>
+  <!-- MODAL: universal viewer -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" role="document">
+      <div class="modal-left">
+        <div class="cover"><img id="modalCover" src="" alt=""></div>
+      </div>
+      <div class="modal-right">
+        <div class="modal-header">
+          <div>
+            <h2 id="modalTitle">Title</h2>
+            <p id="modalAuthor" class="muted">Author</p>
+          </div>
+          <button id="closeModal" class="close-btn" aria-label="Close viewer">✕</button>
+        </div>
+        <div id="modalDesc" class="modal-desc muted">Description</div>
+        <div class="modal-actions">
+          <a id="previewLink" class="preview-btn" href="#" target="_blank" rel="noopener noreferrer">Preview on Google Books</a>
+          <span id="noPreview" class="muted"></span>
+        </div>
       </div>
     </div>
   </section>

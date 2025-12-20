@@ -1,39 +1,28 @@
-// Navbar scroll effect
+//navbar scroll effect
 const navbarElement = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbarElement.classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// All mobile menu logic (consolidated)
+//mobile menu logic
 document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.querySelector('.navbar');
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
 
-  // Fallback for browsers that don't support :has() in JS selectors
-  const menuItemsWithSubs = Array.from(document.querySelectorAll('nav ul li'))
-    .filter(li => li.querySelector('ul'));
-
-  // If key elements are missing, don't bind anything
   if (!navbar || !menuToggle || !navMenu) return;
 
-  // Function to add/remove back button in submenus and toggle hamburger visibility
+  const menuItemsWithSubs = Array.from(navMenu.querySelectorAll('li')).filter(li => li.querySelector('ul'));
+
   const updateBackButtons = () => {
-    // Remove all existing back buttons
     document.querySelectorAll('.submenu-back-btn').forEach(btn => btn.remove());
-    
-    // Check if any submenu is active
+
     const anySubmenuActive = menuItemsWithSubs.some(item => item.classList.contains('active'));
-    
-    // Add/remove class to navbar to control hamburger visibility
+
     if (window.innerWidth <= 768) {
-      if (anySubmenuActive) {
-        navbar.classList.add('submenu-open');
-      } else {
-        navbar.classList.remove('submenu-open');
-      }
-      
-      // Add back button to active submenus
+      if (anySubmenuActive) navbar.classList.add('submenu-open');
+      else navbar.classList.remove('submenu-open');
+
       menuItemsWithSubs.forEach(item => {
         if (item.classList.contains('active')) {
           const submenu = item.querySelector('ul');
@@ -45,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
               e.preventDefault();
               e.stopPropagation();
               item.classList.remove('active');
-              updateBackButtons(); // Update after closing
+              updateBackButtons();
             });
             submenu.insertBefore(backBtn, submenu.firstChild);
           }
@@ -56,94 +45,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // Function to close all submenus
   const closeSubmenus = () => {
     menuItemsWithSubs.forEach(item => item.classList.remove('active'));
     updateBackButtons();
   };
 
-  // Hamburger toggle for main menu
   menuToggle.addEventListener('click', () => {
     const menuIsOpen = navbar.classList.contains('open');
     const anySubmenuOpen = menuItemsWithSubs.some(li => li.classList.contains('active'));
 
-    // If menu is open and a dropdown is open, first close just the dropdowns
     if (menuIsOpen && anySubmenuOpen) {
       closeSubmenus();
-      return; // keep drawer open and keep X state
+      return;
     }
 
-    // Otherwise, toggle the whole drawer
-    const isOpening = !menuIsOpen;
     menuToggle.classList.toggle('active');
     navbar.classList.toggle('open');
-    if (!isOpening) {
-      closeSubmenus();
-    }
+    if (!navbar.classList.contains('open')) closeSubmenus();
   });
 
- document.querySelectorAll('#navMenu a').forEach(link => {
-  link.addEventListener('click', (e) => {
-    const parentLi = link.closest('li');
-    const isTopLevelWithSubmenu =
-      parentLi &&
-      parentLi.querySelector('ul') &&
-      link === parentLi.querySelector(':scope > a');
-    // Clicking the TOP-LEVEL item that has a submenu (Genre, Mood)
-    if (isTopLevelWithSubmenu) {
-      if (window.innerWidth <= 768) {
+  document.querySelectorAll('#navMenu a').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const parentLi = link.closest('li');
+      const isTopLevelWithSubmenu = parentLi && parentLi.querySelector('ul') && link === parentLi.querySelector(':scope > a');
+
+      if (isTopLevelWithSubmenu && window.innerWidth <= 768) {
         e.preventDefault();
-        menuItemsWithSubs.forEach(item => {
-          if (item !== parentLi) item.classList.remove('active');
-        });
+        menuItemsWithSubs.forEach(item => item !== parentLi && item.classList.remove('active'));
         parentLi.classList.toggle('active');
         setTimeout(updateBackButtons, 50);
         return;
       }
 
-      // Desktop: let navigation occur but ensure menus are closed
       menuToggle.classList.remove('active');
       navbar.classList.remove('open');
       closeSubmenus();
-      return;
-    }
-
-    // Clicking an ACTUAL submenu option → CLOSE EVERYTHING
-    menuToggle.classList.remove('active');
-    navbar.classList.remove('open');
-    closeSubmenus();
-
-    // On desktop, also force-hide the dropdown even while cursor is still over it
-    const parentTopLi = link.closest('ul')?.closest('li');
-    if (parentTopLi) {
-      parentTopLi.classList.add('closing');
-      setTimeout(() => parentTopLi.classList.remove('closing'), 250);
-    }
-
-    // On desktop, remove focus so :focus-within dropdown hides immediately
-    if (window.innerWidth > 768) {
-      link.blur();
-      const topLevelLink = parentTopLi?.querySelector(':scope > a');
-      topLevelLink?.blur();
-    }
+    });
   });
-});
-  // Initial check for back buttons
+
   updateBackButtons();
-  
-  // Update on window resize
   window.addEventListener('resize', updateBackButtons);
-  
-  // Use MutationObserver to watch for class changes on menu items
-  const observer = new MutationObserver(() => {
-    updateBackButtons();
-  });
-  
-  menuItemsWithSubs.forEach(item => {
-    observer.observe(item, { attributes: true, attributeFilter: ['class'] });
-  });
 
-  // Close menu if clicking outside
   document.addEventListener('click', (e) => {
     if (!navbar.contains(e.target) && navbar.classList.contains('open')) {
       navbar.classList.remove('open');
@@ -153,129 +95,167 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Search functionality (only if this page has the full search bar)
-const searchBtn = document.getElementById('searchBtn');
-const searchInput = document.getElementById('searchInput');
-
-if (searchBtn && searchInput) {
-  searchBtn.addEventListener('click', performSearch);
-  searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      performSearch();
-    }
-  });
-
-  function performSearch() {
-    const query = searchInput.value.trim();
-    if (!query) {
-      showFeedback('Please enter a search term.', 'error');
-      searchInput.focus();
-      return;
-    }
-    if (query.length < 2) {
-      showFeedback('Too short.', 'error');
-      return;
-    }
-
-    // Redirect to search results
-    window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
-  }
-}
-
-function showFeedback(message, type = 'info') {
-  const existing = document.querySelector('.search-feedback');
-  if (existing) existing.remove();
-
-  const feedback = document.createElement('div');
-  feedback.className = `search-feedback ${type}`;
-  feedback.textContent = message;
-  feedback.style.cssText = `
-    position: fixed;
-    top: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: ${type === 'error' ? '#e74c3c' : '#27ae60'};
-    color: white;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    z-index: 10000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    animation: fadeInOut 3s forwards;
-  `;
-  document.body.appendChild(feedback);
-  setTimeout(() => feedback.remove(), 3000);
-}
-
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeInOut {
-    0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-    15%, 85% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  }
-`;
-document.head.appendChild(style);
-
-// Smooth scroll only on pages that have the hero button
+// Smooth scroll
 const scrollLink = document.getElementById("scrollLink");
 if (scrollLink) {
   scrollLink.addEventListener("click", function(e) {
-    e.preventDefault(); // stop default jump
-
+    e.preventDefault();
     const target = document.getElementById("trending-books");
-    if (!target) return;
-    const offset = 50; // pixels above
-
-    const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
-
-    window.scrollTo({ top: y, behavior: "smooth" });
+    if (target) {
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: "smooth" });
+    }
   });
 }
 
+//trending books data
+const trendingBooks = [
+  { img: "images/trending-books/book1.jpg", alt: "Harry Potter", title: "Harry Potter", author: "J.K. Rowling" },
+  { img: "images/trending-books/book2.jpg", alt: "The Great Gatsby", title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+  { img: "images/trending-books/book3.jpg", alt: "To Kill a Mockingbird", title: "To Kill a Mockingbird", author: "Harper Lee" },
+  { img: "images/trending-books/book4.jpg", alt: "The Story of a Lonely Boy", title: "The Story of a Lonely Boy", author: "Korina Villanueva" },
+  { img: "images/trending-books/book5.jpg", alt: "The Beloved Girls", title: "The Beloved Girls", author: "Harriet Evans" },
+  { img: "images/trending-books/book6.jpg", alt: "The Metamorphosis", title: "The Metamorphosis", author: "Franz Kafka" }
+];
+
+//generate trending books
+document.addEventListener('DOMContentLoaded', () => {
+  const grid = document.getElementById('trendingGrid');
+  if (!grid) return;
+
+  //add original set
+  trendingBooks.forEach(book => {
+    const item = document.createElement('div');
+    item.className = 'book-item';
+    item.innerHTML = `
+      <img src="${book.img}" alt="${book.alt}">
+      <h3>${book.title}</h3>
+      <p>${book.author}</p>
+    `;
+    grid.appendChild(item);
+  });
+
+  //duplicate for smooth infinite scroll effect
+  trendingBooks.forEach(book => {
+    const item = document.createElement('div');
+    item.className = 'book-item';
+    item.innerHTML = `
+      <img src="${book.img}" alt="${book.alt}">
+      <h3>${book.title}</h3>
+      <p>${book.author}</p>
+    `;
+    grid.appendChild(item);
+  });
+});
+
+
+
+//book viewer
 document.querySelectorAll('.read-book-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     const viewer = document.getElementById('bookViewer');
-    const cover = document.getElementById('bookCoverFull');
+    const video = document.getElementById('bookVideo');
+    const videoSource = document.getElementById('bookVideoSource');
+    const captions = document.getElementById('bookCaptions');
     const content = document.getElementById('fullBookContent');
-    const title = document.getElementById('overlayTitle');
-    const author = document.getElementById('overlayAuthor');
+    const titleEl = document.getElementById('overlayTitle');
+    const authorEl = document.getElementById('overlayAuthor');
 
-    // If this page doesn't have the full-screen viewer, do nothing
-    if (!viewer || !cover || !content || !title || !author) return;
+    if (!viewer || !content || !titleEl || !authorEl) return;
 
-    // Set data
-    cover.src = btn.dataset.cover;
-    title.textContent = btn.dataset.title;
-    author.textContent = 'by ' + btn.dataset.author;
-    content.innerHTML = '<p style="text-align:center; padding:100px 0; opacity:0.5;">Loading your book...</p>';
+    titleEl.textContent = btn.dataset.title;
+    authorEl.textContent = 'by ' + btn.dataset.author;
 
-    // Load full text
+    content.innerHTML = '<p style="text-align:center; padding:100px 0; opacity:0.6; font-style:italic;">Loading book content...</p>';
+
     fetch(btn.dataset.content)
-      .then(r => r.text())
+      .then(r => r.ok ? r.text() : Promise.reject())
       .then(text => {
-        content.innerHTML = text
+        const formatted = text
           .replace(/\r/g, '')
-          .replace(/\n\n/g, '</p><p>')
-          .replace(/\n/g, '<br>')
-          .replace(/^(.*)$/gm, '<p>$1</p>');
+          .split('\n\n')
+          .map(para => `<p>${para.replace(/\n/g, '<br>')}</p>`)
+          .join('');
+        content.innerHTML = formatted || '<p style="text-align:center; color:#888;">No content available.</p>';
       })
       .catch(() => {
-        content.innerHTML = '<p style="color:#800; text-align:center;">Book content not available yet.</p>';
+        content.innerHTML = '<p style="text-align:center; color:#c0392b;">Failed to load book content.</p>';
       });
+
+    const videoUrl = btn.dataset.video?.trim();
+    const existingIframe = viewer.querySelector('iframe');
+    if (existingIframe) existingIframe.remove();
+    if (video) video.style.display = 'none';
+
+    if (videoUrl) {
+      const ytMatch = videoUrl.match(/(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^"&?\/\s]{11})/);
+      if (ytMatch) {
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        video.parentNode.insertBefore(iframe, video);
+      } else {
+        if (video) {
+          video.style.display = 'block';
+          videoSource.src = videoUrl;
+          video.load();
+          if (btn.dataset.caption) {
+            captions.src = btn.dataset.caption;
+            video.addEventListener('loadedmetadata', () => {
+              if (video.textTracks[0]) video.textTracks[0].mode = 'showing';
+            });
+          } else {
+            captions.src = '';
+          }
+          video.play().catch(() => {});
+        }
+      }
+    }
 
     viewer.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
 });
 
-// Close book viewer, only if it exists on this page
+//close book viewer
 const exitBookBtn = document.querySelector('.exit-book');
 if (exitBookBtn) {
   exitBookBtn.addEventListener('click', () => {
     const viewer = document.getElementById('bookViewer');
-    if (!viewer) return;
+    const video = document.getElementById('bookVideo');
+    const iframe = viewer.querySelector('iframe');
+
+    if (video) {
+      video.pause();
+      video.currentTime = 0;
+      video.style.display = 'none';
+    }
+    if (iframe) iframe.remove();
+
     viewer.classList.remove('active');
     document.body.style.overflow = 'auto';
   });
+}
+
+//click outside to close viewer
+document.getElementById('bookViewer')?.addEventListener('click', (e) => {
+  if (e.target.id === 'bookViewer') exitBookBtn?.click();
+});
+
+//search placeholder
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+if (searchInput && searchBtn) {
+  const performSearch = () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      alert("Please enter a book title or author.");
+      return;
+    }
+    alert(`Searching for: "${query}"`);
+    searchInput.value = '';
+  };
+
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keypress', e => e.key === 'Enter' && performSearch());
 }

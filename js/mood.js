@@ -1,4 +1,3 @@
-
 const moodQueries = {
   'all': 'bestsellers OR popular fiction',
   'happy': 'happiness OR comedy OR uplifting OR feel-good',
@@ -29,86 +28,112 @@ const bestHeroImage = document.getElementById('bestHeroImage');
 
 // Navbar toggle/submenus are handled globally in js/script.js
 
+/* state */
+let state = { mood: 'all', query: '' };
 
-moodSearchInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    const query = moodSearchInput.value.trim();
-    if (query) {
-      fetchBooks(query);
-      deselectMoods();
-    }
+/* debounce helper */
+function debounce(fn, wait = 250) {
+  let t;
+  return function (...args) {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
+
+/* small utility */
+function escapeHtml(str) {
+  return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
+}
+
+// Simple cache for fetchBooks
+const cache = new Map();
+
+// Fetch books from Google Books API
+async function fetchBooks(query, max = 30) {
+  const cacheKey = `${query}_${max}`;
+  if (cache.has(cacheKey)) {
+    return cache.get(cacheKey);
   }
-});
-
-// Mood selection
-moodItems.forEach(item => {
-  item.addEventListener('click', () => {
-    moodItems.forEach(i => i.classList.remove('selected'));
-    item.classList.add('selected');
-    const mood = item.dataset.mood;
-    const query = moodQueries[mood] || 'fiction';
-    fetchBooks(query);
-    moodSearchInput.value = '';
-  });
-});
-
-//Fetch books from Google Books API
-async function fetchBooks(query) {
+  const safeQuery = query || 'bestsellers fiction nonfiction'; // Fallback for empty
   try {
-    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=20&orderBy=relevance`);
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(safeQuery)}&maxResults=${max}&orderBy=relevance`);
     const data = await response.json();
-    const books = data.items || [];
-    displayBooks(books);
-    if (books.length > 0) {
-      setBestBook(books[0]);
-    }
+    const books = (data.items || []).map(v => {
+      const info = v.volumeInfo || {};
+      return {
+        id: v.id,
+        title: info.title || 'Untitled',
+        authors: (info.authors || ['Unknown']).join(', '),
+        desc: info.description || info.subtitle || '',
+        cover: info.imageLinks?.thumbnail?.replace('http:', 'https:') || '/assets/placeholder.jpg',
+        previewLink: v.accessInfo?.webReaderLink || info.previewLink || info.infoLink || '',
+      };
+    });
+    cache.set(cacheKey, books);
+    return books;
   } catch (error) {
     console.error('Error fetching books:', error);
-    grid.innerHTML = '<p>Sorry, something went wrong. Please try again later.</p>';
+    return [];
   }
 }
 
-//Display books in grid
-function displayBooks(books) {
-  grid.innerHTML = '';
-  if (books.length === 0) {
-    grid.innerHTML = '<p>No books found. Try a different mood or search.</p>';
+// Render books in grid
+async function renderGrid() {
+  grid.innerHTML = '<p style="opacity:0.6;padding:28px">Loading…</p>';
+  const q = state.query.trim() || moodQueries[state.mood] || 'fiction';
+  let books;
+  try {
+    books = await fetchBooks(q, 30); // Consistent max
+    if (books.length === 0) {
+      grid.innerHTML = '<p>No books found. Try a different mood or search.</p>';
+      return;
+    }
+  } catch (error) {
+    grid.innerHTML = '<p>Sorry, something went wrong. Please try again later.</p>';
     return;
   }
-  books.forEach(book => {
-    const info = book.volumeInfo;
+
+  grid.innerHTML = '';
+  books.forEach(b => {
     const card = document.createElement('div');
     card.classList.add('book-card');
+    card.tabIndex = 0;
+    card.role = 'button'; // Accessibility
     card.innerHTML = `
       <div class="cover">
-        <img src="${info.imageLinks?.thumbnail || '/assets/placeholder.jpg'}" alt="${info.title || 'Book cover'}">
+        <img src="${b.cover}" alt="${escapeHtml(b.title)} cover">
       </div>
-      <h3 class="title">${info.title || 'Unknown Title'}</h3>
-      <p class="author">${info.authors?.join(', ') || 'Unknown Author'}</p>
+      <h3 class="title">${escapeHtml(b.title)}</h3>
+      <p class="author">${escapeHtml(b.authors)}</p>
     `;
-    card.addEventListener('click', () => openModal(book));
+    card.addEventListener('click', () => openModal(b));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter') openModal(b); });
     grid.appendChild(card);
   });
+
+  if (books.length > 0) {
+    setFeaturedBook(books[0]);
+  }
 }
 
-//Set best reviewed book
-function setBestBook(book) {
-  const info = book.volumeInfo;
-  bestHeading.textContent = info.title || 'Featured Book';
-  bestBy.textContent = info.authors?.join(', ') || 'Unknown Author';
-  bestHeroImage.src = info.imageLinks?.thumbnail || '/assets/placeholder.jpg';
-  bestHeroImage.alt = `${info.title || 'Book'} cover`;
+// Set featured book (changed from "best reviewed" for accuracy)
+function setFeaturedBook(book) {
+  bestHeading.textContent = book.title || 'Featured Book';
+  bestBy.textContent = book.authors || 'Unknown Author';
+  bestHeroImage.src = book.cover;
+  bestHeroImage.alt = `${escapeHtml(book.title)} cover`;
 }
 
 function openModal(book) {
-  const info = book.volumeInfo;
-  modalCover.src = info.imageLinks?.thumbnail || '/assets/placeholder.jpg';
-  modalTitle.textContent = info.title || 'Unknown Title';
-  modalAuthor.textContent = info.authors?.join(', ') || 'Unknown Author';
-  modalDesc.textContent = info.description || 'No description available.';
+  modalCover.src = book.cover;
+  modalTitle.textContent = book.title;
+  modalAuthor.textContent = book.authors;
+  // Sanitize description
+  const sanitizedDesc = book.desc ? book.desc.replace(/<[^>]*>/g, '') : 'No description available.';
+  modalDesc.textContent = sanitizedDesc;
   
-  if (book.accessInfo?.webReaderLink) {
-    previewLink.href = book.accessInfo.webReaderLink;
+  if (book.previewLink) {
+    previewLink.href = book.previewLink;
     previewLink.style.display = 'inline-block';
     noPreview.style.display = 'none';
   } else {
@@ -119,37 +144,57 @@ function openModal(book) {
   
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
-
   // Persist this view for the Recently Viewed widget
   if (typeof saveRecentBook === 'function') {
-    const recentBook = {
-      id: book.id,
-      title: info.title || 'Unknown Title',
-      authors: info.authors?.join(', ') || 'Unknown Author',
-      cover: info.imageLinks?.thumbnail || '/assets/placeholder.jpg',
-      desc: info.description || 'No description available.',
-      previewLink: book.accessInfo?.webReaderLink || info.infoLink || ''
-    };
-    saveRecentBook(recentBook);
+    // `book` is already normalized with title, authors, cover, desc, previewLink
+    saveRecentBook(book);
   }
+  // Basic focus trap
+  if (closeModalBtn) closeModalBtn.focus();
 }
-
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
-});
 
 function closeModal() {
   modal.classList.remove('open');
   document.body.style.overflow = '';
 }
 
+closeModalBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// Deselect moods
 function deselectMoods() {
   moodItems.forEach(i => i.classList.remove('selected'));
-  document.querySelector('.mood-item[data-mood="all"]').classList.add('selected');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+// Mood selection
+moodItems.forEach(item => {
+  item.addEventListener('click', () => {
+    moodItems.forEach(i => i.classList.remove('selected'));
+    item.classList.add('selected');
+    state.mood = item.dataset.mood || 'all';
+    state.query = ''; // Clear query on mood select
+    moodSearchInput.value = '';
+    renderGrid();
+  });
+});
+
+// Search input (changed to debounced input for live search)
+if (moodSearchInput) {
+  const debouncedSearch = debounce(v => {
+    state.query = v.trim();
+    if (state.query) {
+      deselectMoods();
+      document.querySelector('.mood-item[data-mood="all"]')?.classList.add('selected');
+    }
+    renderGrid();
+  }, 350);
+  moodSearchInput.addEventListener('input', e => debouncedSearch(e.target.value));
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
   const hash = window.location.hash.substring(1); // remove #
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);
   if (moodItem) {
@@ -158,6 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const allMood = document.querySelector('.mood-item[data-mood="all"]');
     if (allMood) {
       allMood.click();
+    } else {
+      await renderGrid();
     }
   }
 });
