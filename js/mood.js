@@ -119,6 +119,19 @@ function openModal(book) {
   
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+
+  // Persist this view for the Recently Viewed widget
+  if (typeof saveRecentBook === 'function') {
+    const recentBook = {
+      id: book.id,
+      title: info.title || 'Unknown Title',
+      authors: info.authors?.join(', ') || 'Unknown Author',
+      cover: info.imageLinks?.thumbnail || '/assets/placeholder.jpg',
+      desc: info.description || 'No description available.',
+      previewLink: book.accessInfo?.webReaderLink || info.infoLink || ''
+    };
+    saveRecentBook(recentBook);
+  }
 }
 
 closeModalBtn.addEventListener('click', closeModal);

@@ -170,6 +170,11 @@ function openModal(book) {
     noPreview.textContent = 'Preview not available';
   }
   document.body.style.overflow = 'hidden';
+
+  // Persist this view for the Recently Viewed widget
+  if (typeof saveRecentBook === 'function') {
+    saveRecentBook(book);
+  }
 }
 function closeModal() {
   modal.classList.remove('open');
