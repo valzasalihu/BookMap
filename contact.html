@@ -74,6 +74,9 @@
         </div>
       </div>
 
+      <!-- React mount point: React will render a replacement form here (falls back to the original form if JS disabled) -->
+      <div id="contactReactRoot"></div>
+
       <form id="contactForm" class="contact-form" novalidate aria-describedby="formHelp" action="#" method="post">
         <p id="formHelp" class="form-help">Fields marked * are required.</p>
 
@@ -270,6 +273,11 @@
   </footer>
 
   <script src="js/contact.js"></script>
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" src="js/react-init.jsx"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
