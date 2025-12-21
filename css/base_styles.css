@@ -24,3 +24,30 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
 }
+
+.dark-btn {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  background: #222;
+  color: white;
+  font-weight: 500;
+}
+
+
+body.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark a {
+  color: #ffcc00;
+}
+
+body.dark .book-card,
+body.dark .recommend-card {
+  background-color: #1e1e1e;
+  color: white;
+}
+
