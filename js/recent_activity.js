@@ -39,6 +39,7 @@ function renderRecentWidget() {
     if (!recent.length) {
     container.innerHTML = '<tr><td colspan="4" class="muted">No recent activity yet.</td></tr>';
     return;
+        
 }
 container.innerHTML = recent.map(b => `
     <tr class="recent-row" data-book='${JSON.stringify(b).replace(/'/g, '&apos;')}'>
