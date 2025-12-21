@@ -143,8 +143,16 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 async function load() {
   try {
     showSkeleton();
-    const currentYear = new Date().getFullYear();
-    const books = await fetchLatest({ q: 'fiction', max: 20, year: currentYear });
+    const params = new URLSearchParams(window.location.search);
+    const qParam = (params.get('q') || '').trim();
+    let books = [];
+    if (qParam) {
+      // Show search results on Latest page as well
+      books = await fetchLatest({ q: qParam, max: 20 });
+    } else {
+      const currentYear = new Date().getFullYear();
+      books = await fetchLatest({ q: 'fiction', max: 20, year: currentYear });
+    }
     renderGrid(books);
   } catch (err) {
     console.error(err);

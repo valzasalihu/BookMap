@@ -195,6 +195,17 @@ if (moodSearchInput) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Support navbar searches: if q param exists, render based on query
+  const params = new URLSearchParams(window.location.search);
+  const qParam = (params.get('q') || '').trim();
+  if (qParam) {
+    state.query = qParam;
+    deselectMoods();
+    document.querySelector('.mood-item[data-mood="all"]')?.classList.add('selected');
+    await renderGrid();
+    return;
+  }
+
   const hash = window.location.hash.substring(1); // remove #
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);
   if (moodItem) {

@@ -249,11 +249,10 @@ if (searchInput && searchBtn) {
   const performSearch = () => {
     const query = searchInput.value.trim();
     if (!query) {
-      alert("Please enter a book title or author.");
+      // no-op when empty
       return;
     }
-    alert(`Searching for: "${query}"`);
-    searchInput.value = '';
+    // Placeholder: wire up navigation or filtering as needed
   };
 
   searchBtn.addEventListener('click', performSearch);
