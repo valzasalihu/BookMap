@@ -20,13 +20,6 @@
 .navbar nav {
   padding: 0 40px;
 }
-.nav-container {
-  display: flex;
-  align-items: center; 
-  gap: 12px;           
-  padding: 0 40px;
-}
-
 
 .navbar ul {
   display: flex;
@@ -119,7 +112,6 @@ nav ul li:focus-within > a::after {
   justify-content: center;
 }
 #searchBtn:hover {
-  background: transparent;
   transform: scale(1.1);
 }
 
@@ -140,7 +132,6 @@ nav ul ul {
   pointer-events: none;
   transition: all 0.35s ease;
   z-index: 999;
-  margin-top: 0 !important;
 }
 
 nav ul ul li {
@@ -148,7 +139,7 @@ nav ul ul li {
   width: 100%;
 }
 
-/* Show dropdown */
+/*show dropdown*/
 nav ul li:hover > ul,
 nav ul li:focus-within > ul,
 nav ul li > ul:hover,
@@ -213,9 +204,17 @@ nav ul ul a:hover {
 .menu-toggle::after { top: 26px; }
 
 /*active state (X) */
-.menu-toggle.active::before { transform: rotate(45deg); top: 19px; }
-.menu-toggle.active::after { transform: rotate(-45deg); top: 19px; }
-.menu-toggle.active span { opacity: 0; }
+.menu-toggle.active::before { 
+  transform: rotate(45deg); 
+  top: 19px; 
+}
+.menu-toggle.active::after { 
+  transform: rotate(-45deg); 
+  top: 19px; 
+}
+.menu-toggle.active span{ 
+  opacity: 0; 
+}
 
 /* hero */
 .hero {
@@ -275,7 +274,7 @@ nav ul ul a:hover {
   text-decoration: none;
 }
 
-/* section titles */
+/*section titles*/
 section h2 {
   font-family: 'Girasol', serif;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
@@ -349,6 +348,7 @@ section h2::after {
   color: #eee;
   font-style: italic;
 }
+
 /* mood and genre sections */
 .mood-container {
   display: flex;
@@ -446,7 +446,7 @@ section h2::after {
   transform: scale(1.05);
 }
 
-/* based on your last reading section */
+/*based on your last reading section*/
 .lastread-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -457,8 +457,7 @@ section h2::after {
 }
 
 .lastread-item1,
-.lastread-item2,
-.lastread-item3 {
+.lastread-item2 {
   background: rgba(120, 100, 63, 0.35);
   border-radius: var(--radius);
   overflow: hidden;
@@ -479,8 +478,7 @@ section h2::after {
 
 /* image styling */
 .lastread-item1 img,
-.lastread-item2 img,
-.lastread-item3 img {
+.lastread-item2 img {
   width: 100%;
   height: 250px;
   object-fit: cover;
@@ -530,35 +528,25 @@ section h2::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
   width: 80vw;
   height: 80vh;
   max-width: 90vw;
   max-height: 90vh;
-  
   z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
-  
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease;
-  
   padding: 20px;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* When you want to show it */
 .book-viewer.active {
   opacity: 1;
   pointer-events: auto;
-}
-
-.book-viewer.active {
-  opacity: 1;
-  pointer-events: all;
 }
 
 .book-outer {
@@ -581,7 +569,8 @@ section h2::after {
   background: #1a120d;
 }
 
-.hardcover {
+.hardcover.left {
+  position: relative;
   width: 50%;
   height: 100%;
   background: linear-gradient(135deg, #8B5E3C, #6A3F3A);
@@ -590,14 +579,7 @@ section h2::after {
   align-items: center;
   justify-content: center;
   box-shadow: inset 0 0 60px rgba(0,0,0,0.4);
-}
-
-.hardcover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  overflow: hidden;
 }
 
 .hardcover video {
@@ -612,6 +594,47 @@ section h2::after {
 
 .hardcover video[controls] {
   outline: none;
+}
+
+.hardcover audio{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/*audio styling*/
+.hardcover audio {
+  object-fit: contain;
+  background: linear-gradient(135deg, #2c1810, #000);
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+/*hide video and audio by default*/
+#bookVideo,
+#bookAudio {
+  display: none;
+}
+
+/*show when JavaScript adds .active class*/
+#bookVideo.active,
+#bookAudio.active {
+  display: block;
+}
+
+#bookVideo::cue {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-shadow: 1px 1px 3px black;
+  padding: 6px 10px;
+  border-radius: 4px;
 }
 
 .pages-container {
@@ -635,7 +658,9 @@ section h2::after {
   text-align: justify;
 }
 
-.pages-scroll::-webkit-scrollbar { width: 12px; }
+.pages-scroll::-webkit-scrollbar { 
+  width: 12px; 
+}
 .pages-scroll::-webkit-scrollbar-track { 
   background: #e5d3b7; 
   border-radius: 10px;
@@ -681,7 +706,7 @@ section h2::after {
   z-index: 10;
 }
 
-.book-title-overlay h2 {
+.book-title-overlay h3 {
   font-family: 'Girasol', serif;
   font-size: 2.2rem;
   margin: 0;
@@ -699,10 +724,11 @@ section h2::after {
     flex-direction: column;
     transform: rotateX(5deg);
   }
-  .hardcover, .pages-container {
+  .hardcover.left, .pages-container {
     width: 100%;
     height: 50%;
   }
   .pages-container { padding: 30px 25px; }
   .book-title-overlay { left: 50%; bottom: 20px; }
 }
+

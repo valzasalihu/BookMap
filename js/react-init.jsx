@@ -8,7 +8,7 @@ function ContactFormReact(){
   const [submitted, setSubmitted] = useState(false)
 
   useEffect(()=>{
-    // hide original non-react form while React is mounted
+    //hide original non-react form while React is mounted
     const original = document.getElementById('contactForm')
     if (original) {
       original.style.display = 'none'
@@ -28,22 +28,22 @@ function ContactFormReact(){
 
   function handleSubmit(e){
     e.preventDefault()
-    // basic validation
+    //basic validation
     if (!form.fullName.trim() || !form.email.trim()){
       const err = document.getElementById('formError')
       if (err) err.style.display = 'block'
       return
     }
-    // hide any prior error
+    //hide any prior error
     const err = document.getElementById('formError')
     if (err) err.style.display = 'none'
 
-    // show success banner if exists, otherwise show local message
+    //show success banner if exists, otherwise show local message
     const success = document.getElementById('formSuccess')
     if (success) success.style.display = 'block'
     setSubmitted(true)
 
-    // simulate async submission and clear form after a short delay
+    //simulate async submission and clear form after a short delay
     setTimeout(()=>{
       setForm({ fullName:'', email:'', age:'', urgency:'', issueType:'question', questionDetails:'', featureDetails:'', feedback:'' })
     }, 800)

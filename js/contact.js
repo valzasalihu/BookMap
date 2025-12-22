@@ -1,7 +1,7 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  // DOM Elements
+  //DOM elements
   const contactForm = document.getElementById('contactForm');
   const successBanner = document.getElementById('formSuccess');
   const errorBanner = document.getElementById('formError');
@@ -11,25 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const featureField = document.getElementById('featureDetails');
   const feedbackField = document.getElementById('feedback');
   
-  // Character counters
+  //character counters
   const questionCharCount = document.getElementById('questionCharCount');
   const featureCharCount = document.getElementById('featureCharCount');
   const feedbackCharCount = document.getElementById('feedbackCharCount');
   
-  // Initialize
   initContactForm();
   
   function initContactForm() {
-    // Setup radio button functionality
     setupRadioButtons();
-    
-    // Setup character counters
     setupCharacterCounters();
-    
-    // Setup form submission
     setupFormSubmission();
-    
-    // Setup real-time validation
     setupRealTimeValidation();
   }
   
@@ -38,61 +30,61 @@ document.addEventListener('DOMContentLoaded', function() {
     const featureRadio = document.getElementById('issue_feature');
     
     function updateIssueDetails() {
-      // Hide both rows first
+      //hide both rows first
       questionRow.style.display = 'none';
       featureRow.style.display = 'none';
       
-      // Remove required attribute
+      //remove required attribute
       questionField.required = false;
       featureField.required = false;
       
-      // Show appropriate row and set required
+      //show appropriate row and set required
       if (questionRadio.checked) {
         questionRow.style.display = 'block';
         questionField.required = true;
-        // Trigger input event to update char count
+        //trigger input event to update char count
         questionField.dispatchEvent(new Event('input'));
       } else if (featureRadio.checked) {
         featureRow.style.display = 'block';
         featureField.required = true;
-        // Trigger input event to update char count
+        //trigger input event to update char count
         featureField.dispatchEvent(new Event('input'));
       }
     }
     
-    // Add event listeners
+    //add event listeners
     if (questionRadio) questionRadio.addEventListener('change', updateIssueDetails);
     if (featureRadio) featureRadio.addEventListener('change', updateIssueDetails);
     
-    // Initial update
+    //initial update
     updateIssueDetails();
   }
   
   function setupCharacterCounters() {
-    // Question field counter
+    //question field counter
     if (questionField && questionCharCount) {
       questionField.addEventListener('input', function() {
         questionCharCount.textContent = this.value.length;
       });
-      // Initialize
+      //initialize
       questionCharCount.textContent = questionField.value.length;
     }
     
-    // Feature field counter
+    //feature field counter
     if (featureField && featureCharCount) {
       featureField.addEventListener('input', function() {
         featureCharCount.textContent = this.value.length;
       });
-      // Initialize
+      //initialize
       featureCharCount.textContent = featureField.value.length;
     }
     
-    // Feedback field counter
+    // feedback field counter
     if (feedbackField && feedbackCharCount) {
       feedbackField.addEventListener('input', function() {
         feedbackCharCount.textContent = this.value.length;
       });
-      // Initialize
+      // initialize
       feedbackCharCount.textContent = feedbackField.value.length;
     }
   }
@@ -106,7 +98,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Hide previous messages
       hideMessages();
       
-      // Validate form
       if (validateForm()) {
         // Show loading state on button
         const submitBtn = this.querySelector('.submit-btn');
@@ -114,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitBtn.disabled = true;
         
-        // Simulate API call (replace with actual fetch/AJAX)
+        // simulate API call
         setTimeout(() => {
           // Reset button
           submitBtn.innerHTML = originalHtml;

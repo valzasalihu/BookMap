@@ -168,7 +168,7 @@ function openModal(book) {
 
   document.body.style.overflow = 'hidden';
 
-  // Persist this view for the Recently Viewed widget
+  //persist this view for the recently viewed widget
   if (typeof saveRecentBook === 'function') {
     saveRecentBook(book);
   }

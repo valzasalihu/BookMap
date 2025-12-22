@@ -30,23 +30,27 @@
     <div class="book-outer">
       <div class="book">
         <div class="hardcover left">
-          <video id="bookVideo" controls preload="metadata" style="display:block;">
+          <video id="bookVideo" controls preload="metadata">
             <source id="bookVideoSource" src="" type="video/mp4">
             <track id="bookCaptions" kind="subtitles" src="" srclang="en" label="English">
             Your browser does not support the video tag.
           </video>
+          <audio id="bookAudio" controls preload="metadata">
+            <source id="bookAudioSource" src="" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
         </div>
         <div class="pages-container right">
           <div class="pages-scroll" id="fullBookContent"></div>
+          </div>
         </div>
-      </div>
-      <button class="exit-book">✕</button>
-      <div class="book-title-overlay">
-        <h3 id="overlayTitle">Loading</h3>
-        <p id="overlayAuthor">by Author</p>
+        <button class="exit-book">✕</button>
+          <div class="book-title-overlay">
+            <h3 id="overlayTitle">Loading</h3>
+            <p id="overlayAuthor">by Author</p>
+          </div>
       </div>
     </div>
-  </div>
 
   <header class="navbar" id="navbar">
     <nav>
@@ -100,17 +104,17 @@
       </div>
     </section>
 
-    <!-- trending books-->
+    <!--trending books-->
     <section class="trending-books" id="trending-books">
       <h2>Trending Books</h2>
       <div class="book-slider">
         <div class="book-grid" id="trendingGrid">
-          
+          <!--books will dynamically insert here-->
         </div>
       </div>
     </section>
 
-    <!-- pick by Mood -->
+    <!--pick by mood-->
     <section class="mood-picker">
       <h2>Pick by Mood</h2>
       <div class="mood-container">
@@ -204,47 +208,48 @@
               data-cover="images/recommend-1.png"
               data-content="images/media/pride-and-prejudice/pride-and-prejudice.txt"
               data-video="images/media/pride-and-prejudice/prideAndPrejudice-trailer.mp4"
-              data-caption="images/media/pride-and-prejudice/prideAndPrejudice-captions.vtt">
+              data-caption="images/media/pride-and-prejudice/prideAndPrejudice-captions.vtt"
+              data-audio="">
               Read Now
             </button>
           </div>
         </div>
         <div class="lastread-item2">
           <img src="images/recommend-2.png" alt="The Silent Patient" />
-          <div class="text-content">
-            <h3>The Silent Patient</h3>
-            <p>Alex Michaelides</p>
-            <button class="read-book-btn"
-              data-title="The Silent Patient"
-              data-author="Alex Michaelides"
-              data-cover="images/recommend-2.png"
-              data-content="images/media/the-silent-patient/the-silent-patient.txt"
-              data-video="https://www.youtube.com/watch?v=WhGKjRjuYAA"
-              data-caption="">
-              Read Now
-            </button>
-          </div>
+            <div class="text-content">
+              <h3>The Silent Patient</h3>
+              <p>Alex Michaelides</p>
+              <button class="read-book-btn"
+                 data-title="The Silent Patient"
+                data-author="Alex Michaelides"
+                data-cover="images/recommend-2.png"
+                data-content="images/media/the-silent-patient/the-silent-patient.txt"
+                data-video=""   
+                data-audio="images/media/the-silent-patient/the-silent-patient-audio.mp3">
+                Read Now
+              </button>
+            </div>
         </div>
         <div class="lastread-item2">
           <img src="images/recommend-3.jpg" alt="1984" />
-          <div class="text-content">
-            <h3>1984</h3>
-            <p>George Orwell</p>
-            <button class="read-book-btn"
-              data-title="1984"
-              data-author="George Orwell"
-              data-cover="images/recommend-3.jpg"
-              data-content="images/media/1984/1984.txt"
-              data-video="https://www.youtube.com/watch?v=SXq3yMhobEU"
-              data-caption="">
-              Read Now
-            </button>
-          </div>
+            <div class="text-content">
+              <h3>1984</h3>
+              <p>George Orwell</p>
+              <button class="read-book-btn"
+                data-title="1984"
+                data-author="George Orwell"
+                data-cover="images/recommend-3.jpg"
+                data-content="images/media/1984/1984.txt"
+                data-video="https://www.youtube.com/watch?v=SXq3yMhobEU" 
+                data-audio="">
+                Read Now
+              </button>
+            </div>
         </div>
       </div>
     </section>
 
-    <!-- why use BookMap -->
+    <!--why use BookMap-->
     <section class="why-section">
       <h2>Why use BookMap?</h2>
       <div class="features">
@@ -264,7 +269,7 @@
     </section>
   </main>
 
-  <!-- footer -->
+  <!--footer-->
   <footer class="contact-footer">
     <div class="footer-header">
       <h2>Contact Us!</h2>

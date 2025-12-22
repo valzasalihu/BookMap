@@ -1,6 +1,5 @@
 const grid = document.getElementById('grid');
 const shelfContainer = document.getElementById('shelfContainer');
-// Use a page-specific name to avoid clashing with global searchInput in script.js
 const genreSearchInput = document.getElementById('searchInput');
 const genreItems = document.querySelectorAll('.genre-item');
 
@@ -17,10 +16,10 @@ const bestHeading = document.getElementById('bestHeading');
 const bestBy = document.getElementById('bestBy');
 const bestHeroImage = document.getElementById('bestHeroImage');
 
-/* state */
+/*state*/
 let state = { genre: 'all', query: '' };
 
-/* debounce helper */
+/*debounce helper*/
 function debounce(fn, wait = 250) {
   let t;
   return function (...args) {
@@ -29,7 +28,7 @@ function debounce(fn, wait = 250) {
   };
 }
 
-/* fetch from Google Books API */
+/*fetch from Google Books API */
 async function fetchVolumes(q, max = 30) {
   const safeQ = q && q !== 'all' ? q : 'fiction';
   const url = `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(safeQ)}&maxResults=${max}`;
@@ -60,7 +59,7 @@ async function renderGrid() {
   const volumes = await fetchVolumes(q, 20);
   if (!volumes.length) {
     grid.innerHTML = `<div style="opacity:0.6;padding:28px">No results.</div>`;
-    renderShelves([]); // clear shelves too
+    renderShelves([]);
     return;
   }
 
@@ -87,13 +86,12 @@ async function renderGrid() {
     bestHeroImage.src = best.cover;
   }
 
-  // populate shelves from the same result set (only if shelfContainer exists)
+  
   if (shelfContainer) {
     renderShelves(volumes);
   }
 }
 
-/* populate shelves dynamically based on number of books */
 function renderShelves(volumes) {
   if (!shelfContainer) return;
   if (!volumes || volumes.length === 0) {
@@ -103,7 +101,7 @@ function renderShelves(volumes) {
 
   shelfContainer.innerHTML = '';
 
-  // Calculate books per row based on current grid width
+  //calculate books per row based on current grid width
   const gridStyle = getComputedStyle(grid);
   const gridGap = parseInt(gridStyle.getPropertyValue('gap')) || 18;
   const gridWidth = grid.clientWidth;
@@ -112,7 +110,7 @@ function renderShelves(volumes) {
 
   const totalRows = Math.ceil(volumes.length / booksPerRow);
 
-  // Pre-create all shelves
+  //pre-create all shelves
   const shelves = [];
   for (let row = 0; row < totalRows; row++) {
     const shelf = document.createElement('div');
@@ -125,7 +123,7 @@ function renderShelves(volumes) {
     shelves.push(shelf.querySelector('.books-row'));
   }
 
-  // Populate books into each shelf row
+  //populate books into each shelf row
   volumes.forEach((book, idx) => {
     const rowIdx = Math.floor(idx / booksPerRow);
     const row = shelves[rowIdx];
@@ -145,7 +143,7 @@ function renderShelves(volumes) {
   });
 }
 
-/* universal modal viewer */
+/*universal modal viewer*/
 function openModal(book) {
   modal.classList.add('open');
   modal.setAttribute('aria-hidden', 'false');
@@ -163,7 +161,6 @@ function openModal(book) {
   }
   document.body.style.overflow = 'hidden';
 
-  // Persist this view for the Recently Viewed widget
   if (typeof saveRecentBook === 'function') {
     saveRecentBook(book);
   }
@@ -214,7 +211,7 @@ if (genreSearchInput) {
   }
 })();
 
-// Handle hash changes (e.g., from navbar dropdown clicks)
+//handle hash changes
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.substring(1);
   const genreItem = document.querySelector(`.genre-item[data-genre="${hash}"]`);

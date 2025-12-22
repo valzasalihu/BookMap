@@ -7,7 +7,7 @@ const moodQueries = {
   'frustrated': 'overcoming challenges OR resilience OR frustration OR thriller'
 };
 
-// DOM Elements
+//DOM elements
 const menuToggle = document.getElementById('menuToggle');
 const navbar = document.querySelector('.navbar');
 const navMenu = document.getElementById('navMenu');
@@ -26,12 +26,11 @@ const bestHeading = document.getElementById('bestHeading');
 const bestBy = document.getElementById('bestBy');
 const bestHeroImage = document.getElementById('bestHeroImage');
 
-// Navbar toggle/submenus are handled globally in js/script.js
 
-/* state */
+/*state*/
 let state = { mood: 'all', query: '' };
 
-/* debounce helper */
+/*debounce helper*/
 function debounce(fn, wait = 250) {
   let t;
   return function (...args) {
@@ -40,25 +39,25 @@ function debounce(fn, wait = 250) {
   };
 }
 
-/* small utility */
+/*small utility*/
 function escapeHtml(str) {
   return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
 }
 
-// Fetch books from Google Books API with localStorage cache
+//fetch books from Google Books API with localStorage cache
 async function fetchBooks(query, max = 30) {
   const cacheKey = `${query}_${max}`;
   const cachedData = localStorage.getItem(cacheKey);
   if (cachedData) {
     return JSON.parse(cachedData);
   }
-  const safeQuery = query || 'bestsellers fiction nonfiction'; // Fallback for empty
+  const safeQuery = query || 'bestsellers fiction nonfiction';
   try {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(safeQuery)}&maxResults=${max}&orderBy=relevance`);
     const data = await response.json();
-    const { items = [] } = data; // Destructuring
+    const { items = [] } = data; //destructuring
     const books = items.map(v => {
-      const { volumeInfo: info = {} } = v; // Destructuring
+      const { volumeInfo: info = {} } = v; //destructuring
       return {
         id: v.id,
         title: info.title || 'Untitled',
@@ -76,13 +75,13 @@ async function fetchBooks(query, max = 30) {
   }
 }
 
-// Render books in grid
+//render books in grid
 async function renderGrid() {
   grid.innerHTML = '<p style="opacity:0.6;padding:28px">Loading…</p>';
   const q = state.query.trim() || moodQueries[state.mood] || 'fiction';
   let books;
   try {
-    books = await fetchBooks(q, 30); // Consistent max
+    books = await fetchBooks(q, 30);
     if (books.length === 0) {
       grid.innerHTML = '<p>No books found. Try a different mood or search.</p>';
       return;
@@ -97,7 +96,7 @@ async function renderGrid() {
     const card = document.createElement('div');
     card.classList.add('book-card');
     card.tabIndex = 0;
-    card.role = 'button'; // Accessibility
+    card.role = 'button'; //accessibility
     card.innerHTML = `
       <div class="cover">
         <img src="${b.cover}" alt="${escapeHtml(b.title)} cover">
@@ -115,7 +114,6 @@ async function renderGrid() {
   }
 }
 
-// Set featured book (changed from "best reviewed" for accuracy)
 function setFeaturedBook(book) {
   bestHeading.textContent = book.title || 'Featured Book';
   bestBy.textContent = book.authors || 'Unknown Author';
@@ -127,7 +125,7 @@ function openModal(book) {
   modalCover.src = book.cover;
   modalTitle.textContent = book.title;
   modalAuthor.textContent = book.authors;
-  // Sanitize description
+  
   const sanitizedDesc = book.desc ? book.desc.replace(/<[^>]*>/g, '') : 'No description available.';
   modalDesc.textContent = sanitizedDesc;
   
@@ -143,12 +141,12 @@ function openModal(book) {
   
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
-  // Persist this view for the Recently Viewed widget
+  
   if (typeof saveRecentBook === 'function') {
-    // `book` is already normalized with title, authors, cover, desc, previewLink
+   
     saveRecentBook(book);
   }
-  // Basic focus trap
+  //basic focus trap
   if (closeModalBtn) closeModalBtn.focus();
 }
 
@@ -163,24 +161,24 @@ modal.addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-// Deselect moods
+//esdelect moods
 function deselectMoods() {
   moodItems.forEach(i => i.classList.remove('selected'));
 }
 
-// Mood selection
+//mood selection
 moodItems.forEach(item => {
   item.addEventListener('click', () => {
     moodItems.forEach(i => i.classList.remove('selected'));
     item.classList.add('selected');
     state.mood = item.dataset.mood || 'all';
-    state.query = ''; // Clear query on mood select
+    state.query = '';
     moodSearchInput.value = '';
     renderGrid();
   });
 });
 
-// Search input (changed to debounced input for live search)
+//search input (debounced input for live search)
 if (moodSearchInput) {
   const debouncedSearch = debounce(v => {
     state.query = v.trim();
@@ -194,7 +192,7 @@ if (moodSearchInput) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const hash = window.location.hash.substring(1); // remove #
+  const hash = window.location.hash.substring(1); 
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);
   if (moodItem) {
     moodItem.click();
@@ -208,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Handle hash changes (e.g., from navbar dropdown clicks)
+//handle hash changes
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.substring(1);
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);
