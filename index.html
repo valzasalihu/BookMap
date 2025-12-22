@@ -20,6 +20,7 @@
       border: none;
       border-radius: 8px;
     }
+    
     @media (max-width: 768px) {
       #bookViewer iframe { height: 300px; }
     }
@@ -58,6 +59,7 @@
         <span></span>
       </button>
       <ul id="navMenu">
+              <button id="darkModeBtn" class="dark-btn">🌙/☀️ Mode</button>
         <li><a href="index.html">Home</a></li>
         <li><a href="genre.html">Genre</a>
           <ul>
@@ -82,14 +84,6 @@
         </li>
         <li><a href="latest_releases.html">Latest Releases</a></li>
         <li class="nav-contact"><a href="contact.html">Contact</a></li>
-        <li class="nav-search-container">
-          <div class="nav-search">
-            <input type="search" id="searchInput" placeholder="Search books" aria-label="Search books">
-            <button type="button" id="searchBtn" class="search-btn">
-              <i class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i>
-            </button>
-          </div>
-        </li>
       </ul>
     </nav>
   </header>
@@ -311,4 +305,8 @@
 
   <script src="js/script.js"></script>
 </body>
+
 </html>
+
+
+

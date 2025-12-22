@@ -143,38 +143,17 @@ function renderShelves(volumes) {
   });
 }
 
-/*universal modal viewer*/
-function openModal(book) {
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  modalCover.src = book.cover;
-  modalTitle.textContent = book.title;
-  modalAuthor.textContent = book.authors;
-  modalDesc.innerHTML = book.desc ? book.desc : 'No description available.';
-  if (book.previewLink) {
-    previewLink.href = book.previewLink;
-    previewLink.style.display = 'inline-block';
-    noPreview.textContent = '';
-  } else {
-    previewLink.style.display = 'none';
-    noPreview.textContent = 'Preview not available';
-  }
-  document.body.style.overflow = 'hidden';
-
-  if (typeof saveRecentBook === 'function') {
-    saveRecentBook(book);
-  }
-}
-function closeModal() {
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-
-/* attach modal events */
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+/* universal modal viewer */
+const { openModal, closeModal } = createModalHandlers({
+  modal,
+  modalCover,
+  modalTitle,
+  modalAuthor,
+  modalDesc,
+  previewLink,
+  noPreview,
+  closeModalBtn
+});
 
 /* small utility */
 function escapeHtml(str) {
@@ -202,6 +181,16 @@ if (genreSearchInput) {
 
 /* initial load */
 (async function init() {
+  // Support navbar searches via ?q=
+  const params = new URLSearchParams(window.location.search);
+  const qParam = (params.get('q') || '').trim();
+  if (qParam) {
+    state.query = qParam;
+    if (genreSearchInput) genreSearchInput.value = qParam;
+    await renderGrid();
+    return;
+  }
+
   const hash = window.location.hash.substring(1); // remove #
   const genreItem = document.querySelector(`.genre-item[data-genre="${hash}"]`);
   if (genreItem) {
@@ -211,7 +200,7 @@ if (genreSearchInput) {
   }
 })();
 
-//handle hash changes
+// Handle hash changes 
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.substring(1);
   const genreItem = document.querySelector(`.genre-item[data-genre="${hash}"]`);

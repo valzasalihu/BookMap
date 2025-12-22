@@ -1,6 +1,6 @@
-//injects the universal "Best Reviewed" modal into the page
+// injects the universal "Best Reviewed" modal into the page
 (function injectBestReviewedModal() {
- if (document.getElementById('modal')) return; //already present
+  if (document.getElementById('modal')) return;
 const modalHTML = `
     <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-card" role="document">

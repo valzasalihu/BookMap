@@ -72,6 +72,9 @@
 .recent-title {
   font-weight: 500;
   max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .recent-author {
@@ -114,6 +117,13 @@
     height: 55px;
   }
   .recent-title {
-    max-width: 150px;
+    max-width: 140px;
+  }
+}
+
+/* Extra-small devices: tighten title width further */
+@media (max-width: 480px) {
+  .recent-title {
+    max-width: 110px;
   }
 }

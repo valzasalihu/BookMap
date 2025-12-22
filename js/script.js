@@ -260,13 +260,31 @@ if (searchInput && searchBtn) {
   const performSearch = () => {
     const query = searchInput.value.trim();
     if (!query) {
-      alert("Please enter a book title or author.");
+      
       return;
     }
-    alert(`Searching for: "${query}"`);
-    searchInput.value = '';
+    // Redirect to genre page with search query 
+    window.location.href = `genre.html?q=${encodeURIComponent(query)}`;
   };
 
   searchBtn.addEventListener('click', performSearch);
   searchInput.addEventListener('keypress', e => e.key === 'Enter' && performSearch());
+}
+
+const darkBtn = document.getElementById("darkModeBtn");
+
+darkBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  
+  if (document.body.classList.contains("dark")) {
+    localStorage.setItem("darkMode", "on");
+  } else {
+    localStorage.setItem("darkMode", "off");
+  }
+});
+
+
+if (localStorage.getItem("darkMode") === "on") {
+  document.body.classList.add("dark");
 }

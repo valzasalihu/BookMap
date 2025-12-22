@@ -1,13 +1,14 @@
 const moodQueries = {
   'all': 'bestsellers OR popular fiction',
-  'happy': 'happiness OR comedy OR uplifting OR feel-good',
+  // Expanded query to improve results for "Happy"
+  'happy': 'subject:Humor OR subject:Comedy OR subject:Happiness OR joy OR uplifting OR feel good OR lighthearted',
   'sad': 'tragedy OR drama OR melancholy OR emotional',
   'adventurous': 'adventure OR exploration OR fantasy OR quest',
   'motivated': 'motivation OR inspiration OR self-help OR success',
   'frustrated': 'overcoming challenges OR resilience OR frustration OR thriller'
 };
 
-//DOM elements
+// DOM elements
 const menuToggle = document.getElementById('menuToggle');
 const navbar = document.querySelector('.navbar');
 const navMenu = document.getElementById('navMenu');
@@ -26,11 +27,10 @@ const bestHeading = document.getElementById('bestHeading');
 const bestBy = document.getElementById('bestBy');
 const bestHeroImage = document.getElementById('bestHeroImage');
 
-
-/*state*/
+/* state */
 let state = { mood: 'all', query: '' };
 
-/*debounce helper*/
+/* debounce helper */
 function debounce(fn, wait = 250) {
   let t;
   return function (...args) {
@@ -39,12 +39,12 @@ function debounce(fn, wait = 250) {
   };
 }
 
-/*small utility*/
+/* small utility */
 function escapeHtml(str) {
   return String(str || '').replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[s]));
 }
 
-//fetch books from Google Books API with localStorage cache
+// fetch books from Google Books API with localStorage cache
 async function fetchBooks(query, max = 30) {
   const cacheKey = `${query}_${max}`;
   const cachedData = localStorage.getItem(cacheKey);
@@ -55,9 +55,9 @@ async function fetchBooks(query, max = 30) {
   try {
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(safeQuery)}&maxResults=${max}&orderBy=relevance`);
     const data = await response.json();
-    const { items = [] } = data; //destructuring
+    const { items = [] } = data;
     const books = items.map(v => {
-      const { volumeInfo: info = {} } = v; //destructuring
+      const { volumeInfo: info = {} } = v;
       return {
         id: v.id,
         title: info.title || 'Untitled',
@@ -75,13 +75,18 @@ async function fetchBooks(query, max = 30) {
   }
 }
 
-//render books in grid
+// render books in grid
 async function renderGrid() {
   grid.innerHTML = '<p style="opacity:0.6;padding:28px">Loading…</p>';
   const q = state.query.trim() || moodQueries[state.mood] || 'fiction';
   let books;
   try {
     books = await fetchBooks(q, 30);
+    // If "happy" yields no results, try a broader, safer fallback
+    if (books.length === 0 && state.mood === 'happy') {
+      const fallbackQuery = 'humor OR comedy OR romance OR uplifting';
+      books = await fetchBooks(fallbackQuery, 30);
+    }
     if (books.length === 0) {
       grid.innerHTML = '<p>No books found. Try a different mood or search.</p>';
       return;
@@ -96,7 +101,7 @@ async function renderGrid() {
     const card = document.createElement('div');
     card.classList.add('book-card');
     card.tabIndex = 0;
-    card.role = 'button'; //accessibility
+    card.role = 'button'; // accessibility
     card.innerHTML = `
       <div class="cover">
         <img src="${b.cover}" alt="${escapeHtml(b.title)} cover">
@@ -121,64 +126,36 @@ function setFeaturedBook(book) {
   bestHeroImage.alt = `${escapeHtml(book.title)} cover`;
 }
 
-function openModal(book) {
-  modalCover.src = book.cover;
-  modalTitle.textContent = book.title;
-  modalAuthor.textContent = book.authors;
-  
-  const sanitizedDesc = book.desc ? book.desc.replace(/<[^>]*>/g, '') : 'No description available.';
-  modalDesc.textContent = sanitizedDesc;
-  
-  if (book.previewLink) {
-    previewLink.href = book.previewLink;
-    previewLink.style.display = 'inline-block';
-    noPreview.style.display = 'none';
-  } else {
-    previewLink.style.display = 'none';
-    noPreview.textContent = 'No preview available.';
-    noPreview.style.display = 'block';
-  }
-  
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  
-  if (typeof saveRecentBook === 'function') {
-   
-    saveRecentBook(book);
-  }
-  //basic focus trap
-  if (closeModalBtn) closeModalBtn.focus();
-}
-
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
+// Shared modal handlers
+const { openModal, closeModal } = createModalHandlers({
+  modal,
+  modalCover,
+  modalTitle,
+  modalAuthor,
+  modalDesc,
+  previewLink,
+  noPreview,
+  closeModalBtn
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-//esdelect moods
+// Deselect moods
 function deselectMoods() {
   moodItems.forEach(i => i.classList.remove('selected'));
 }
 
-//mood selection
+// Mood selection
 moodItems.forEach(item => {
   item.addEventListener('click', () => {
-    moodItems.forEach(i => i.classList.remove('selected'));
+    deselectMoods();
     item.classList.add('selected');
     state.mood = item.dataset.mood || 'all';
     state.query = '';
-    moodSearchInput.value = '';
+    if (moodSearchInput) moodSearchInput.value = '';
     renderGrid();
   });
 });
 
-//search input (debounced input for live search)
+// Search input (debounced input for live search)
 if (moodSearchInput) {
   const debouncedSearch = debounce(v => {
     state.query = v.trim();
@@ -191,8 +168,20 @@ if (moodSearchInput) {
   moodSearchInput.addEventListener('input', e => debouncedSearch(e.target.value));
 }
 
+// initial load with support for navbar searches and hash anchors
 document.addEventListener('DOMContentLoaded', async () => {
-  const hash = window.location.hash.substring(1); 
+  const params = new URLSearchParams(window.location.search);
+  const qParam = (params.get('q') || '').trim();
+  if (qParam) {
+    state.query = qParam;
+    deselectMoods();
+    document.querySelector('.mood-item[data-mood="all"]')?.classList.add('selected');
+    if (moodSearchInput) moodSearchInput.value = qParam;
+    await renderGrid();
+    return;
+  }
+
+  const hash = window.location.hash.substring(1);
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);
   if (moodItem) {
     moodItem.click();
@@ -206,7 +195,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-//handle hash changes
+// Handle hash changes
 window.addEventListener('hashchange', () => {
   const hash = window.location.hash.substring(1);
   const moodItem = document.querySelector(`.mood-item[data-mood="${hash}"]`);

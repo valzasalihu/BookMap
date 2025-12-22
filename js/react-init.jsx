@@ -2,7 +2,7 @@ const { useState, useEffect } = React
 
 function ContactFormReact(){
   const [form, setForm] = useState({
-    fullName: '', email: '', age: '', urgency: '', issueType: 'question',
+    fullName: '', email: '', age: '', urgency: '', issueType: '',
     questionDetails: '', featureDetails: '', feedback: ''
   })
   const [submitted, setSubmitted] = useState(false)
@@ -45,7 +45,7 @@ function ContactFormReact(){
 
     //simulate async submission and clear form after a short delay
     setTimeout(()=>{
-      setForm({ fullName:'', email:'', age:'', urgency:'', issueType:'question', questionDetails:'', featureDetails:'', feedback:'' })
+      setForm({ fullName:'', email:'', age:'', urgency:'', issueType:'', questionDetails:'', featureDetails:'', feedback:'' })
     }, 800)
   }
 
@@ -108,7 +108,7 @@ function ContactFormReact(){
             <label className="form-label">Issue Type *</label>
             <div className="issue-type-buttons">
               <div className="issue-button">
-                <input type="radio" id="r_question" name="reactIssueType" value="question" checked={form.issueType==='question'} onChange={e=>update('issueType', e.target.value)} />
+                <input type="radio" id="r_question" name="reactIssueType" value="question" checked={form.issueType==='question'} onChange={e=>update('issueType', e.target.value)} required={!form.issueType} />
                 <label htmlFor="r_question"><i className="fas fa-question-circle"></i><span>Question</span></label>
               </div>
               <div className="issue-button">

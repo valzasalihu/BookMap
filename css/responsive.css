@@ -1,6 +1,3 @@
-/* ======================= */
-/* 9️⃣ Mobile / Responsive   */
-/* ======================= */
 
 /* fade in animation */
 @keyframes fadeInUp {
@@ -161,15 +158,12 @@
   /* Other sections */
   .lastread-container { grid-template-columns: 1fr; padding: 1.5rem 1rem; gap: 1.5rem; }
   .mood-container { flex-wrap: wrap; gap: 1rem; }
-  .mood-item {font-size: 0.95 rem; border-radius: var(--radius);transition: var(--transition); }
+  .mood-item {font-size: 0.95rem; border-radius: var(--radius); transition: var(--transition); }
   .mood-item:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
   .genre-container { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 }
 
-/* ======================= */
-/* Standard Breakpoints */
-/* ======================= */
-
+/* Breakpoints */
 /* Tablet (768px - 1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
   .app {
@@ -204,7 +198,58 @@
   }
 }
 
-/* Reduced Motion (Accessibility - WCAG Requirement) */
+/* Small phones (<=480px) */
+@media (max-width: 480px) {
+  .navbar nav,
+  .nav-container {
+    padding: 0 0.75rem;
+  }
+
+  .navbar ul {
+    width: 78vw;
+  }
+
+  .navbar a {
+    font-size: 1rem;
+    padding: 0.5rem 2.25rem;
+  }
+
+  .nav-search-container {
+    margin-bottom: 0.75rem;
+  }
+
+  .genre-container {
+    grid-template-columns: 1fr;
+  }
+
+  .lastread-container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+/* Large screens (>=1280px) */
+@media (min-width: 1280px) {
+  .navbar nav,
+  .nav-container {
+    padding: 0 3rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 22px;
+  }
+
+  .genre-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .lastread-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Reduced Motion  */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -39,6 +39,7 @@ function renderRecentWidget() {
     if (!recent.length) {
     container.innerHTML = '<tr><td colspan="4" class="muted">No recent activity yet.</td></tr>';
     return;
+        
 }
 container.innerHTML = recent.map(b => `
     <tr class="recent-row" data-book='${JSON.stringify(b).replace(/'/g, '&apos;')}'>
@@ -59,7 +60,26 @@ container.innerHTML = recent.map(b => `
 }
 
 if (document.readyState === 'loading') {
-document.addEventListener('DOMContentLoaded', renderRecentWidget);
+document.addEventListener('DOMContentLoaded', () => {
+        // Clear recent data only when the page is refreshed
+        try {
+                const navEntries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+                const isReload = (navEntries && navEntries[0] && navEntries[0].type === 'reload')
+                    || (performance.navigation && performance.navigation.type === performance.navigation.TYPE_RELOAD);
+                if (isReload) {
+                        localStorage.removeItem(RECENT_KEY);
+                }
+        } catch {}
+        renderRecentWidget();
+});
 } else {
-renderRecentWidget();
+    try {
+        const navEntries = performance.getEntriesByType && performance.getEntriesByType('navigation');
+        const isReload = (navEntries && navEntries[0] && navEntries[0].type === 'reload')
+            || (performance.navigation && performance.navigation.type === performance.navigation.TYPE_RELOAD);
+        if (isReload) {
+                localStorage.removeItem(RECENT_KEY);
+        }
+    } catch {}
+    renderRecentWidget();
 }

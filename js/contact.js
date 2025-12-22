@@ -1,7 +1,11 @@
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  //DOM elements
+  // If React successfully renders into the mount, skip vanilla logic; otherwise fall back to vanilla.
+  const reactMount = document.getElementById('contactReactRoot');
+  if (reactMount && reactMount.childNodes.length > 0) return;
+
+  // DOM elements
   const contactForm = document.getElementById('contactForm');
   const successBanner = document.getElementById('formSuccess');
   const errorBanner = document.getElementById('formError');
