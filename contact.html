@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BookMap</title>
+  <title>Contact | BookMap</title>
   <link rel="stylesheet" href="css/base_styles.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/footer.css">
@@ -95,10 +95,10 @@
               <div class="input-with-icon">
                 <i class="fas fa-user"></i>
                 <input id="fullName" name="fullName" type="text" required 
-                       minlength="2" maxlength="60" 
-                       pattern="^[A-Za-z\s.'-]+$"
-                       placeholder="Jane Doe"
-                       class="form-input">
+                        minlength="2" maxlength="60" 
+                        pattern="^[A-Za-z\s.'-]+$"
+                        placeholder="Jane Doe"
+                        class="form-input">
               </div>
               <div class="input-feedback"></div>
             </div>
@@ -110,8 +110,8 @@
               <div class="input-with-icon">
                 <i class="fas fa-envelope"></i>
                 <input id="email" name="email" type="email" required 
-                       placeholder="jane@example.com"
-                       class="form-input">
+                        placeholder="jane@example.com"
+                        class="form-input">
               </div>
               <div class="input-feedback"></div>
             </div>
@@ -124,9 +124,9 @@
               <div class="input-with-icon">
                 <i class="fas fa-birthday-cake"></i>
                 <input id="age" name="age" type="number" 
-                       min="13" max="120" 
-                       placeholder="18"
-                       class="form-input">
+                        min="13" max="120" 
+                        placeholder="18"
+                        class="form-input">
               </div>
             </div>
           </div>
@@ -176,7 +176,7 @@
             </div>
           </div>
           
-          <div id="questionDetailsRow" class="issue-details-row">
+          <div id="questionDetailsRow" class="issue-details-row" style="display: none;">
             <div class="form-group">
               <label for="questionDetails" class="form-label">Your Question *</label>
               <div class="input-with-icon">
@@ -192,7 +192,7 @@
             </div>
           </div>
           
-          <div id="featureDetailsRow" class="issue-details-row">
+          <div id="featureDetailsRow" class="issue-details-row" style="display: none;">
             <div class="form-group">
               <label for="featureDetails" class="form-label">Your Feature Request *</label>
               <div class="input-with-icon">
@@ -273,9 +273,8 @@
   </footer>
 
   <script src="js/contact.js"></script>
-
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel" src="js/react-init.jsx"></script>
   <script src="js/script.js"></script>

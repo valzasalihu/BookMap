@@ -148,41 +148,17 @@ function setBestBook(book) {
   bestHeroImage.alt = `${book.title || 'Book'} cover`;
 }
 
-
-function openModal(book) {
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden', 'false');
-  modalCover.src = book.cover;
-  modalTitle.textContent = book.title;
-  modalAuthor.textContent = book.authors;
-  modalDesc.textContent = book.desc;
-
-  if (book.previewLink) {
-    previewLink.href = book.previewLink;
-    previewLink.style.display = 'inline-block';
-    noPreview.textContent = '';
-  } else {
-    previewLink.style.display = 'none';
-    noPreview.textContent = 'Preview not available';
-  }
-
-  document.body.style.overflow = 'hidden';
-
-  // Persist this view for the Recently Viewed widget
-  if (typeof saveRecentBook === 'function') {
-    saveRecentBook(book);
-  }
-}
-
-function closeModal() {
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-}
-
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+// Shared modal handlers
+const { openModal, closeModal } = createModalHandlers({
+  modal,
+  modalCover,
+  modalTitle,
+  modalAuthor,
+  modalDesc,
+  previewLink,
+  noPreview,
+  closeModalBtn
+});
 
 
 async function load() {

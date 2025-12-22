@@ -136,7 +136,7 @@ nav ul li:focus-within > a::after {
   transform: scale(1.1);
 }
 
-/* Hide native clear (X) buttons on search inputs across browsers */
+
 input[type="search"]::-webkit-search-decoration,
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button,
@@ -284,7 +284,7 @@ nav ul ul a:hover {
   .menu-toggle.active::before { top: 20.5px; }
   .menu-toggle.active::after { top: 20.5px; }
   
-  /* Hide hamburger toggle when submenu is open */
+  
   .navbar.submenu-open .menu-toggle {
     display: none !important;
   }

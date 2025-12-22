@@ -249,10 +249,11 @@ if (searchInput && searchBtn) {
   const performSearch = () => {
     const query = searchInput.value.trim();
     if (!query) {
-      // no-op when empty
+      
       return;
     }
-    // Placeholder: wire up navigation or filtering as needed
+    // Redirect to genre page with search query 
+    window.location.href = `genre.html?q=${encodeURIComponent(query)}`;
   };
 
   searchBtn.addEventListener('click', performSearch);

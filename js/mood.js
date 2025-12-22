@@ -1,6 +1,7 @@
 const moodQueries = {
   'all': 'bestsellers OR popular fiction',
-  'happy': 'happiness OR comedy OR uplifting OR feel-good',
+  // Expanded query to improve results for "Happy"
+  'happy': 'subject:Humor OR subject:Comedy OR subject:Happiness OR joy OR uplifting OR feel good OR lighthearted',
   'sad': 'tragedy OR drama OR melancholy OR emotional',
   'adventurous': 'adventure OR exploration OR fantasy OR quest',
   'motivated': 'motivation OR inspiration OR self-help OR success',
@@ -26,7 +27,6 @@ const bestHeading = document.getElementById('bestHeading');
 const bestBy = document.getElementById('bestBy');
 const bestHeroImage = document.getElementById('bestHeroImage');
 
-// Navbar toggle/submenus are handled globally in js/script.js
 
 /* state */
 let state = { mood: 'all', query: '' };
@@ -83,6 +83,11 @@ async function renderGrid() {
   let books;
   try {
     books = await fetchBooks(q, 30); // Consistent max
+    // If "happy" yields no results, try a broader, safer fallback
+    if (books.length === 0 && state.mood === 'happy') {
+      const fallbackQuery = 'humor OR comedy OR romance OR uplifting';
+      books = await fetchBooks(fallbackQuery, 30);
+    }
     if (books.length === 0) {
       grid.innerHTML = '<p>No books found. Try a different mood or search.</p>';
       return;
@@ -123,45 +128,17 @@ function setFeaturedBook(book) {
   bestHeroImage.alt = `${escapeHtml(book.title)} cover`;
 }
 
-function openModal(book) {
-  modalCover.src = book.cover;
-  modalTitle.textContent = book.title;
-  modalAuthor.textContent = book.authors;
-  // Sanitize description
-  const sanitizedDesc = book.desc ? book.desc.replace(/<[^>]*>/g, '') : 'No description available.';
-  modalDesc.textContent = sanitizedDesc;
-  
-  if (book.previewLink) {
-    previewLink.href = book.previewLink;
-    previewLink.style.display = 'inline-block';
-    noPreview.style.display = 'none';
-  } else {
-    previewLink.style.display = 'none';
-    noPreview.textContent = 'No preview available.';
-    noPreview.style.display = 'block';
-  }
-  
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  // Persist this view for the Recently Viewed widget
-  if (typeof saveRecentBook === 'function') {
-    // `book` is already normalized with title, authors, cover, desc, previewLink
-    saveRecentBook(book);
-  }
-  // Basic focus trap
-  if (closeModalBtn) closeModalBtn.focus();
-}
-
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-closeModalBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
+// Shared modal handlers
+const { openModal, closeModal } = createModalHandlers({
+  modal,
+  modalCover,
+  modalTitle,
+  modalAuthor,
+  modalDesc,
+  previewLink,
+  noPreview,
+  closeModalBtn
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // Deselect moods
 function deselectMoods() {
