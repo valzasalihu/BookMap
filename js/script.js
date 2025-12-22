@@ -1,3 +1,20 @@
+/**
+ * CLIENT-SERVER MODEL DEMONSTRATION
+ * 
+ * When a user clicks "Read Now":
+ * 1. The CLIENT (browser) sends an HTTP GET request to the server
+ *    for the book text file (e.g., "pride-and-prejudice.txt").
+ * 2. The SERVER responds with the file contents (HTTP 200 OK + text/plain).
+ * 3. The client receives the response and dynamically inserts the text
+ *    into the book viewer using JavaScript.
+ * 
+ * This is a classic example of client-server communication:
+ * - Client initiates request → Server sends response → Client renders result
+ * 
+ * Similar process occurs for loading video/audio sources and captions.
+ */
+
+
 //Navbar scroll effect
 const navbarElement = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
