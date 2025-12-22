@@ -43,15 +43,15 @@
         </div>
         <div class="pages-container right">
           <div class="pages-scroll" id="fullBookContent"></div>
-          </div>
         </div>
-        <button class="exit-book">✕</button>
-          <div class="book-title-overlay">
-            <h3 id="overlayTitle">Loading</h3>
-            <p id="overlayAuthor">by Author</p>
-          </div>
+      </div>
+      <button class="exit-book">✕</button>
+      <div class="book-title-overlay">
+        <h3 id="overlayTitle">Loading</h3>
+        <p id="overlayAuthor">by Author</p>
       </div>
     </div>
+  </div>
 
   <header class="navbar" id="navbar">
     <nav>
@@ -59,7 +59,6 @@
         <span></span>
       </button>
       <ul id="navMenu">
-              <button id="darkModeBtn" class="dark-btn">🌙/☀️ Mode</button>
         <li><a href="index.html">Home</a></li>
         <li><a href="genre.html">Genre</a>
           <ul>
@@ -93,7 +92,7 @@
       <div class="hero-content">
         <img src="images/logo.png" alt="BookMap Logo" class="logo">
         <h1>BookMap</h1>
-        <p>Where every book is a journey</p>
+        <p>Where every book is a <strong>journey</strong></p>
         <button class="cta-btn"><a href="#trending-books" id="scrollLink">Explore Now</a></button>
       </div>
     </section>
@@ -192,7 +191,10 @@
       <h2>Suggested by Us</h2>
       <div class="lastread-container">
         <div class="lastread-item1">
-          <img src="images/recommend-1.png" alt="Pride and Prejudice" />
+          <figure>
+            <img src="images/recommend-1.png" alt="Pride and Prejudice book cover">
+            <figcaption>Pride and Prejudice <em>by Jane Austen</em></figcaption>
+          </figure>
           <div class="text-content">
             <h3>Pride and Prejudice</h3>
             <p>Jane Austen</p>
@@ -209,36 +211,42 @@
           </div>
         </div>
         <div class="lastread-item2">
-          <img src="images/recommend-2.png" alt="The Silent Patient" />
-            <div class="text-content">
-              <h3>The Silent Patient</h3>
-              <p>Alex Michaelides</p>
-              <button class="read-book-btn"
-                 data-title="The Silent Patient"
-                data-author="Alex Michaelides"
-                data-cover="images/recommend-2.png"
-                data-content="images/media/the-silent-patient/the-silent-patient.txt"
-                data-video=""   
-                data-audio="images/media/the-silent-patient/the-silent-patient-audio.mp3">
-                Read Now
-              </button>
-            </div>
+          <figure>
+            <img src="images/recommend-2.png" alt="The Silent Patient book cover">
+            <figcaption>The Silent Patient <em>by Alex Michaelides</em></figcaption>
+          </figure>
+          <div class="text-content">
+            <h3>The Silent Patient</h3>
+            <p>Alex Michaelides</p>
+            <button class="read-book-btn"
+              data-title="The Silent Patient"
+              data-author="Alex Michaelides"
+              data-cover="images/recommend-2.png"
+              data-content="images/media/the-silent-patient/the-silent-patient.txt"
+              data-video=""   
+              data-audio="images/media/the-silent-patient/the-silent-patient-audio.mp3">
+              Read Now
+            </button>
+          </div>
         </div>
         <div class="lastread-item2">
-          <img src="images/recommend-3.jpg" alt="1984" />
-            <div class="text-content">
-              <h3>1984</h3>
-              <p>George Orwell</p>
-              <button class="read-book-btn"
-                data-title="1984"
-                data-author="George Orwell"
-                data-cover="images/recommend-3.jpg"
-                data-content="images/media/1984/1984.txt"
-                data-video="https://www.youtube.com/watch?v=SXq3yMhobEU" 
-                data-audio="">
-                Read Now
-              </button>
-            </div>
+          <figure>
+            <img src="images/recommend-3.jpg" alt="1984 book cover">
+            <figcaption>1984 <em>by George Orwell</em></figcaption>
+          </figure>
+          <div class="text-content">
+            <h3>1984</h3>
+            <p>George Orwell</p>
+            <button class="read-book-btn"
+              data-title="1984"
+              data-author="George Orwell"
+              data-cover="images/recommend-3.jpg"
+              data-content="images/media/1984/1984.txt"
+              data-video="https://www.youtube.com/watch?v=SXq3yMhobEU" 
+              data-audio="">
+              Read Now
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -249,15 +257,18 @@
       <div class="features">
         <div class="feature">
           <img src="https://img.icons8.com/ios-filled/50/ffffff/clock--v1.png" alt="Time Saver">
-          <p><strong>Time Saver:</strong><br>No more drowning in lists. Get straight to the book that fits you best.</p>
+          <p><strong>Time Saver:</strong></p>
+          <p>No more drowning in lists. Get straight to the book that fits you best.</p>
         </div>
         <div class="feature">
           <img src="https://img.icons8.com/ios-filled/50/ffffff/sparkling.png" alt="Hidden Gems">
-          <p><strong>Hidden Gems:</strong><br>Explore stories you’d never find on mainstream lists.</p>
+          <p><strong>Hidden Gems:</strong></p>
+          <p>Explore stories you’d never find on mainstream lists.</p>
         </div>
         <div class="feature">
-          <img src="https://img.icons8.com/ios-filled/50/ffffff/open-book--v1.png" alt="Personalized" />
-          <p><strong>Personalized Recommendations:</strong><br>Find books that match your taste, not random bestsellers.</p>
+          <img src="https://img.icons8.com/ios-filled/50/ffffff/open-book--v1.png" alt="Personalized Recommendations">
+          <p><strong>Personalized Recommendations:</strong></p>
+          <p>Find books that match your taste, not random bestsellers.</p>
         </div>
       </div>
     </section>
@@ -305,8 +316,4 @@
 
   <script src="js/script.js"></script>
 </body>
-
 </html>
-
-
-

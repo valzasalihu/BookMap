@@ -136,7 +136,7 @@
 
   nav ul li > a { cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
 
-  /* Search at top of toggle menu only (not in desktop navbar) */
+  
   .nav-search-container {
     display: block !important; /* Show only in mobile toggle menu */
     order: -1; /* Move to top */
@@ -228,7 +228,7 @@
   }
 }
 
-/* Large screens (>=1280px) */
+/*large screens (>=1280px) */
 @media (min-width: 1280px) {
   .navbar nav,
   .nav-container {
@@ -249,7 +249,7 @@
   }
 }
 
-/* Reduced Motion  */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

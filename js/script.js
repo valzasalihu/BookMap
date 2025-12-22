@@ -8,12 +8,10 @@
  * 3. The client receives the response and dynamically inserts the text
  *    into the book viewer using JavaScript.
  * 
- * This is a classic example of client-server communication:
- * - Client initiates request → Server sends response → Client renders result
+ * This is a classic example of client-server communication.
  * 
  * Similar process occurs for loading video/audio sources and captions.
  */
-
 
 //Navbar scroll effect
 const navbarElement = document.getElementById('navbar');
@@ -126,12 +124,12 @@ if (scrollLink) {
 
 //trending books
 const trendingBooks = [
-  { img: "images/trending-books/book1.jpg", alt: "Harry Potter", title: "Harry Potter", author: "J.K. Rowling" },
-  { img: "images/trending-books/book2.jpg", alt: "The Great Gatsby", title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
-  { img: "images/trending-books/book3.jpg", alt: "To Kill a Mockingbird", title: "To Kill a Mockingbird", author: "Harper Lee" },
-  { img: "images/trending-books/book4.jpg", alt: "The Story of a Lonely Boy", title: "The Story of a Lonely Boy", author: "Korina Villanueva" },
-  { img: "images/trending-books/book5.jpg", alt: "The Beloved Girls", title: "The Beloved Girls", author: "Harriet Evans" },
-  { img: "images/trending-books/book6.jpg", alt: "The Metamorphosis", title: "The Metamorphosis", author: "Franz Kafka" }
+  { img: "images/trending-books/book1.jpg", alt: "Harry Potter book cover", title: "Harry Potter", author: "J.K. Rowling" },
+  { img: "images/trending-books/book2.jpg", alt: "The Great Gatsby book cover", title: "The Great Gatsby", author: "F. Scott Fitzgerald" },
+  { img: "images/trending-books/book3.jpg", alt: "To Kill a Mockingbird book cover", title: "To Kill a Mockingbird", author: "Harper Lee" },
+  { img: "images/trending-books/book4.jpg", alt: "The Story of a Lonely Boy book cover", title: "The Story of a Lonely Boy", author: "Korina Villanueva" },
+  { img: "images/trending-books/book5.jpg", alt: "The Beloved Girls book cover", title: "The Beloved Girls", author: "Harriet Evans" },
+  { img: "images/trending-books/book6.jpg", alt: "The Metamorphosis book cover", title: "The Metamorphosis", author: "Franz Kafka" }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -142,9 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const item = document.createElement('div');
     item.className = 'book-item';
     item.innerHTML = `
-      <img src="${book.img}" alt="${book.alt}">
-      <h3>${book.title}</h3>
-      <p>${book.author}</p>
+      <figure>
+        <img src="${book.img}" alt="${book.alt}">
+        <figcaption>${book.title} <em>by ${book.author}</em></figcaption>
+      </figure>
     `;
     grid.appendChild(item);
   });
@@ -165,10 +164,8 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
 
     if (!viewer || !content || !titleEl || !authorEl || !hardcover) return;
 
-
     titleEl.textContent = btn.dataset.title;
     authorEl.textContent = 'by ' + btn.dataset.author;
-
 
     content.innerHTML = '<p style="text-align:center; padding:100px 0; opacity:0.6; font-style:italic;">Loading...</p>';
     fetch(btn.dataset.content)
@@ -181,7 +178,6 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
       .catch(() => {
         content.innerHTML = '<p style="text-align:center; color:#c0392b;">Failed to load book content.</p>';
       });
-
 
     hardcover.querySelectorAll('iframe').forEach(el => el.remove());
     if (video) {
@@ -197,7 +193,6 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
     const videoUrl = btn.dataset.video?.trim();
 
     if (audioUrl && audioUrl !== '') {
-      //show static audio element
       audioSource.src = audioUrl;
       audio.load();
       audio.classList.add('active');
@@ -206,7 +201,6 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
     else if (videoUrl && videoUrl !== '') {
       const ytMatch = videoUrl.match(/(?:youtube\.com\/.*[?&]v=|youtu\.be\/)([^"&?\/\s]{11})/);
       if (ytMatch) {
-        //youTube iframe
         const iframe = document.createElement('iframe');
         iframe.src = `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0&modestbranding=1`;
         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
@@ -217,7 +211,6 @@ document.querySelectorAll('.read-book-btn').forEach(btn => {
         iframe.style.borderRadius = '12px';
         hardcover.appendChild(iframe);
       } else {
-        //local video
         videoSource.src = videoUrl;
         video.load();
         if (btn.dataset.caption?.trim()) {
@@ -277,31 +270,11 @@ if (searchInput && searchBtn) {
   const performSearch = () => {
     const query = searchInput.value.trim();
     if (!query) {
-      
       return;
     }
-    // Redirect to genre page with search query 
     window.location.href = `genre.html?q=${encodeURIComponent(query)}`;
   };
 
   searchBtn.addEventListener('click', performSearch);
   searchInput.addEventListener('keypress', e => e.key === 'Enter' && performSearch());
-}
-
-const darkBtn = document.getElementById("darkModeBtn");
-
-darkBtn.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-
-  
-  if (document.body.classList.contains("dark")) {
-    localStorage.setItem("darkMode", "on");
-  } else {
-    localStorage.setItem("darkMode", "off");
-  }
-});
-
-
-if (localStorage.getItem("darkMode") === "on") {
-  document.body.classList.add("dark");
-}
+};

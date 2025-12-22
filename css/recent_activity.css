@@ -9,13 +9,14 @@
   padding: 0 20px;
 }
 
-.recent-container h3 {
-  color: var(--primary-dark);
-  font-size: 1.25rem;
-  margin-bottom: 16px;
+.recent-table caption {
   font-weight: 600;
+  font-size: 1.2rem;
+  padding: 0.8rem;
+  text-align: left;
+  caption-side: top;
+  color: var(--primary-dark);
 }
-
 .recent-table {
   width: 100%;
   border-collapse: collapse;
@@ -121,7 +122,6 @@
   }
 }
 
-/* Extra-small devices: tighten title width further */
 @media (max-width: 480px) {
   .recent-title {
     max-width: 110px;
